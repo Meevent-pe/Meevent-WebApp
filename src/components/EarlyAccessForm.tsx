@@ -1,8 +1,11 @@
 'use client'
 
+import { EarlyAccessButton } from "./ui/EarlyAccessButton"
+
 export const EarlyAccessForm = () => {
     return (
-        <form className="flex flex-col gap-4 mt-10 xl:mt-14" onSubmit={(e) => e.preventDefault()}>
+        <form onSubmit={(e) => e.preventDefault()}
+            className="flex flex-col gap-4 mt-10 xl:mt-14">
             <fieldset className="flex flex-col gap-4 xl:flex-row">
                 <legend className="sr-only">Formulario de acceso anticipado</legend>
 
@@ -36,13 +39,7 @@ export const EarlyAccessForm = () => {
                     />
                 </div>
 
-                <button
-                    type="submit"
-                    aria-label="Solicitar acceso anticipado a Meevent"
-                    className="bg-black w-full py-4 font-bold text-white text-xl rounded-full xl:px-15 xl:text-[18px] xl:w-auto"
-                >
-                    Acceso anticipado
-                </button>
+                <EarlyAccessButton variant="form" type="submit"/>
             </fieldset>
         </form>
     )
