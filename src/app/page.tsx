@@ -39,7 +39,7 @@ export default function Home() {
 
                 <EarlyAccessForm />
 
-                <UserList />
+                <UserList usersCount={0}/>
 
             </section>
         </main>
