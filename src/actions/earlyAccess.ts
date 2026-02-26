@@ -1,4 +1,4 @@
-'use server';
+"use server";
 
 import { db } from "@/lib/firebaseAdmin";
 import { FieldValue } from "firebase-admin/firestore";
@@ -39,28 +39,24 @@ export async function registerEarlyAccess(
 
   try {
     const leadRef = db.collection("leads").doc(email);
-    const docSnapshot = await leadRef.get();
-
-    if (docSnapshot.exists) {
-      return {
-        success: false,
-        message: "Este correo ya está registrado en nuestra lista de espera.",
-      };
-    }
-
-    const batch = db.batch();
     const counterRef = db.collection("stats").doc("leadsCounter");
 
-    batch.set(leadRef, {
-      name: name.trim(),
-      email: email.toLowerCase().trim(),
+    const batch = db.batch();
+
+    batch.create(leadRef, {
+      name,
+      email,
       createdAt: FieldValue.serverTimestamp(),
     });
 
-    batch.update(counterRef, {
-      total: FieldValue.increment(1),
-      lastUpdated: FieldValue.serverTimestamp(),
-    });
+    batch.set(
+      counterRef,
+      {
+        total: FieldValue.increment(1),
+        lastUpdated: FieldValue.serverTimestamp(),
+      },
+      { merge: true },
+    );
 
     await batch.commit();
     revalidatePath("/");
@@ -69,11 +65,19 @@ export async function registerEarlyAccess(
       message: "¡Registro exitoso! Te avisaremos pronto.",
     };
   } catch (error: any) {
-    console.error("Error en el registro de Early Access");
+
+    if (error.code === 6 || error.code === "already-exists") {
+      return {
+        success: false,
+        message: "Este correo ya está registrado.",
+      };
+    }
+
+    console.error("EarlyAccess Error:", error);
 
     return {
       success: false,
-      message: "Error al momento de registrar.",
+      message: "Error al registrar. Inténtalo más tarde.",
     };
   }
 }
