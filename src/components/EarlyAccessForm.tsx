@@ -5,8 +5,8 @@ import { registerEarlyAccess, FormState } from "@/actions/earlyAccess"
 import { EarlyAccessButton } from "./ui/EarlyAccessButton"
 
 const initialState: FormState = {
-  success: false,
-  message: "",
+    success: false,
+    message: "",
 }
 
 export const EarlyAccessForm = () => {
@@ -16,7 +16,7 @@ export const EarlyAccessForm = () => {
     )
 
     return (
-        <form 
+        <form
             action={formAction}
             className="flex flex-col gap-4 mt-10 xl:mt-14"
         >
@@ -33,13 +33,9 @@ export const EarlyAccessForm = () => {
                         required
                         disabled={isPending}
                         autoComplete="name"
-                        className={`bg-white rounded-2xl w-full text-black p-4 xl:w-70 xl:px-6 outline-none border-2 transition-all ${
-                            state.errors?.name ? 'border-red-500' : 'border-transparent focus:border-black'
-                        }`}
+                        className={`bg-white rounded-2xl w-full text-black p-4 xl:w-70 xl:px-6 outline-none border-2 transition-all ${state.errors?.name ? 'border-red-500' : 'border-transparent focus:border-black'
+                            }`}
                     />
-                    {state.errors?.name && (
-                        <span className="text-red-500 text-xs px-2">{state.errors.name[0]}</span>
-                    )}
                 </div>
 
                 <div className="flex flex-col gap-1">
@@ -52,27 +48,17 @@ export const EarlyAccessForm = () => {
                         required
                         disabled={isPending}
                         autoComplete="email"
-                        className={`bg-white rounded-2xl w-full text-black p-4 xl:w-70 xl:px-6 outline-none border-2 transition-all ${
-                            state.errors?.email ? 'border-red-500' : 'border-transparent focus:border-black'
-                        }`}
+                        className={`bg-white rounded-2xl w-full text-black p-4 xl:w-70 xl:px-6 outline-none border-2 transition-all ${state.errors?.email ? 'border-red-500' : 'border-transparent focus:border-black'
+                            }`}
                     />
-                    {state.errors?.email && (
-                        <span className="text-red-500 text-xs px-2">{state.errors.email[0]}</span>
-                    )}
                 </div>
 
-                <EarlyAccessButton 
-                    variant="form" 
-                    type="submit" 
+                <EarlyAccessButton
+                    variant="form"
+                    type="submit"
                     disabled={isPending}
                 />
             </fieldset>
-
-            {state.message && (
-                <p className={`text-sm font-semibold mt-2 ${state.success ? 'text-green-500' : 'text-white'}`}>
-                    {state.message}
-                </p>
-            )}
         </form>
     )
 }
