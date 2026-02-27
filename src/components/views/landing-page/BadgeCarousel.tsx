@@ -5,7 +5,7 @@ export const BadgeCarousel = ({ categories, reverse = false }: { categories: any
 
     return (
         <div className="flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-            <div className={`flex gap-3 py-2 ${reverse ? 'animate-marquee-reverse' : 'animate-marquee'} hover:[animation-play-state:paused]`}>
+            <div className={`flex gap-3 py-2 ${reverse ? 'animate-marquee-reverse' : 'animate-marquee'}`}>
                 {items.map((cat, idx) => (
                     <div
                         key={`${cat.name}-${idx}`}

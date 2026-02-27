@@ -12,13 +12,13 @@ interface Props {
 
 export const EventCard = ({ eventImg, eventTitle, eventsCount, eventStars, eventReviewsCount, position }: Props) => {
     return (
-        <div className={`w-70 flex items-center justify-start rounded-3xl  border border-[#750013]/10 px-5 py-4 gap-2 shadow ${position}`}>
+        <div className={`max-w-70 flex items-center justify-start rounded-3xl  border border-[#750013]/10 px-5 py-4 gap-2 shadow ${position}`}>
             <Image src={eventImg} width={64} height={64} alt={eventTitle} className="object-cover shrink-0" />
             <div>
                 <span className="font-bold text-sm">{eventTitle}</span>
                 <p className="text-sm leading-3">{eventsCount} eventos</p>
 
-                <div className="flex items-center gap-2 w-36 mt-1">
+                <div className="flex items-center gap-2 max-w-37 mt-1">
                     <div className="flex gap-1">
                         {[...Array(5)].map((_, index) => {
                             const isFilled = index < eventStars;
