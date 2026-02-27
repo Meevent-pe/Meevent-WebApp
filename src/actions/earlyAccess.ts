@@ -13,15 +13,19 @@ export type FormState = {
   };
 };
 
+type FormErrors = NonNullable<FormState["errors"]>;
+
+type ErrorWithCode = { code?: string | number };
+
 export async function registerEarlyAccess(
-  prevState: FormState,
+  _prevState: FormState,
   formData: FormData,
 ): Promise<FormState> {
-  const name = formData.get("name") as string;
+  const name = (formData.get("name") as string)?.trim();
   const email = (formData.get("email") as string)?.toLowerCase().trim();
 
-  const errors: any = {};
-  if (!name || name.trim().length < 3) {
+  const errors: FormErrors = {};
+  if (!name || name.length < 3) {
     errors.name = ["El nombre debe tener al menos 3 caracteres."];
   }
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -64,9 +68,11 @@ export async function registerEarlyAccess(
       success: true,
       message: "¡Registro exitoso! Te avisaremos pronto.",
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
 
-    if (error.code === 6 || error.code === "already-exists") {
+    const code = hasCodeError(error) ? error.code : undefined;
+
+    if (code === 6 || code === "already-exists") {
       return {
         success: false,
         message: "Este correo ya está registrado.",
@@ -80,4 +86,8 @@ export async function registerEarlyAccess(
       message: "Error al registrar. Inténtalo más tarde.",
     };
   }
+}
+
+function hasCodeError(error: unknown): error is ErrorWithCode {
+  return typeof error === "object" && error !== null && "code" in error;
 }
