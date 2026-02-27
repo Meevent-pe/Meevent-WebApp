@@ -2,8 +2,11 @@ import { EarlyAccessForm } from "@/components/EarlyAccessForm";
 import { MeeventLogo } from "@/components/MeeventLogo";
 import { EarlyAccessButton } from "@/components/ui/EarlyAccessButton";
 import { UserList } from "@/components/UserList";
+import { db } from "@/lib/firebaseAdmin";
 
-export default function Home() {
+export default async function Home() {
+    const counterDoc = await db.collection("stats").doc("leadsCounter").get();
+    const totalLeads = counterDoc.exists ? counterDoc.data()?.total : 0;
     return (
         <main className="
                 px-3.75 bg-linear-to-t from-[#AB2037] from-0% to-meevent-primary to-40% 
@@ -39,7 +42,7 @@ export default function Home() {
 
                 <EarlyAccessForm />
 
-                <UserList usersCount={0}/>
+                <UserList usersCount={totalLeads}/>
 
             </section>
         </main>

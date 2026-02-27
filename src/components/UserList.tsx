@@ -33,7 +33,9 @@ export const UserList = ({ usersCount = 0 }: Props) => {
                     ))
                 }
             </AvatarGroup>
-            <p className='font-semibold text-white text-center text-[16px] xl:text-[20px]'>+{usersCount} usuarios ya se sumaron a la lista</p>
+            <p className='font-semibold text-white text-center text-[16px] xl:text-[20px]'>
+                {usersCount} usuarios ya se sumaron a la lista
+            </p>
         </div>
     )
 }
