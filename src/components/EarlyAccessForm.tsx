@@ -18,7 +18,7 @@ export const EarlyAccessForm = () => {
     return (
         <form
             action={formAction}
-            className="flex flex-col gap-4 mt-10 xl:mt-14"
+            className="flex flex-col gap-4"
         >
             <fieldset className="flex flex-col gap-4 xl:flex-row">
                 <legend className="sr-only">Formulario de acceso anticipado</legend>

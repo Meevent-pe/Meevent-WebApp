@@ -14,6 +14,13 @@
 
   --animate-marquee: marquee 15s linear infinite;
   --animate-marquee-reverse: marquee 15s linear infinite reverse;
+  
+  --background-image-footer-banner: 
+    linear-gradient(
+      color-mix(in srgb, var(--color-meevent-primary), transparent 20%), 
+      color-mix(in srgb, var(--color-meevent-primary), transparent 20%)
+    ), 
+    url('/ui/bg_form_footer.png');
 }
 
 @theme inline {
