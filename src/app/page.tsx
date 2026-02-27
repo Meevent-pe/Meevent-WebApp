@@ -2,6 +2,7 @@ import { EarlyAccessForm } from "@/components/EarlyAccessForm";
 import { MeeventLogo } from "@/components/MeeventLogo";
 import { EarlyAccessButton } from "@/components/ui/EarlyAccessButton";
 import { UserList } from "@/components/UserList";
+import { FeaturesSection } from "@/components/views/landing-page/FeaturesSection";
 import { db } from "@/lib/firebaseAdmin";
 
 export default async function Home() {
@@ -49,6 +50,8 @@ export default async function Home() {
 
             </section>
 
+
+            <FeaturesSection />
         </main>
     );
 }

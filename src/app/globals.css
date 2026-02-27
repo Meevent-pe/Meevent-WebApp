@@ -6,6 +6,14 @@
 
 @theme {
   --color-meevent-primary: #F23F5C;
+  
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  --animate-marquee: marquee 15s linear infinite;
+  --animate-marquee-reverse: marquee 15s linear infinite reverse;
 }
 
 @theme inline {
