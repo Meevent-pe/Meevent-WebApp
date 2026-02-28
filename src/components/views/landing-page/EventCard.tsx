@@ -7,13 +7,28 @@ interface Props {
     eventsCount: number;
     eventStars: number;
     eventReviewsCount: number;
-    position: string
+    position: string;
 }
 
-export const EventCard = ({ eventImg, eventTitle, eventsCount, eventStars, eventReviewsCount, position }: Props) => {
+export const EventCard = ({
+    eventImg,
+    eventTitle,
+    eventsCount,
+    eventStars,
+    eventReviewsCount,
+    position,
+}: Props) => {
     return (
-        <div className={`max-w-70 flex items-center justify-start rounded-3xl  border border-[#750013]/10 px-5 py-4 gap-2 shadow ${position}`}>
-            <Image src={eventImg} width={64} height={64} alt={eventTitle} className="object-cover shrink-0" />
+        <div
+            className={`max-w-70 flex items-center justify-start rounded-3xl border border-[#750013]/10 px-5 py-4 gap-2 shadow hover:scale-[1.03] hover:shadow-md transition-all duration-200 cursor-pointer ${position}`}
+        >
+            <Image
+                src={eventImg}
+                width={64}
+                height={64}
+                alt={eventTitle}
+                className="object-cover shrink-0"
+            />
             <div>
                 <span className="font-bold text-sm">{eventTitle}</span>
                 <p className="text-sm leading-3">{eventsCount} eventos</p>
@@ -26,17 +41,20 @@ export const EventCard = ({ eventImg, eventTitle, eventsCount, eventStars, event
                                 <Star
                                     key={index}
                                     size={12}
-                                    className={isFilled
-                                        ? "text-meevent-primary fill-meevent-primary" // Rojo/Primario
-                                        : "text-gray-300 fill-gray-300"               // Gris
+                                    className={
+                                        isFilled
+                                            ? "text-meevent-primary fill-meevent-primary" // Rojo/Primario
+                                            : "text-gray-300 fill-gray-300" // Gris
                                     }
                                 />
                             );
                         })}
                     </div>
-                    <span className="text-[12px]">{eventReviewsCount} reseñas</span>
+                    <span className="text-[12px]">
+                        {eventReviewsCount} reseñas
+                    </span>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};

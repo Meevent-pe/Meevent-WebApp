@@ -1,16 +1,17 @@
-import { MessageCircle, Sparkles, Star } from "lucide-react"
-import { FeatureInfo } from "./FeatureInfo"
-import { EventCard } from "./EventCard"
-import Image from "next/image"
-import { BadgeCarousel } from "./BadgeCarousel"
-import { ReviewCard } from "./ReviewCard"
+import { MessageCircle, Sparkles, Star } from "lucide-react";
+import { FeatureInfo } from "./FeatureInfo";
+import { EventCard } from "./EventCard";
+import Image from "next/image";
+import { BadgeCarousel } from "./BadgeCarousel";
+import { ReviewCard } from "./ReviewCard";
 
 const reputationFeatureInfo = {
     badgeIcon: Star,
     badgeText: "Reputación del Organizador",
     cardTitle: "Dime quién organiza y te diré si vale la pena ir",
-    cardDescription: "Creamos un sistema de reputación para los organizadores. Filtramos a los que solo quieren tu dinero de los que realmente crean experiencias increíbles.",
-}
+    cardDescription:
+        "Creamos un sistema de reputación para los organizadores. Filtramos a los que solo quieren tu dinero de los que realmente crean experiencias increíbles.",
+};
 
 const events = [
     {
@@ -19,7 +20,7 @@ const events = [
         eventsCount: 20,
         eventStars: 3,
         eventReviewsCount: 15,
-        position: "self-start"
+        position: "self-start",
     },
     {
         eventImg: "/events/event_2.png",
@@ -27,7 +28,7 @@ const events = [
         eventsCount: 8,
         eventStars: 4,
         eventReviewsCount: 5,
-        position: "self-end"
+        position: "self-end",
     },
     {
         eventImg: "/events/event_3.png",
@@ -35,7 +36,7 @@ const events = [
         eventsCount: 15,
         eventStars: 3,
         eventReviewsCount: 12,
-        position: "self-start"
+        position: "self-start",
     },
     {
         eventImg: "/events/event_4.png",
@@ -43,16 +44,17 @@ const events = [
         eventsCount: 5,
         eventStars: 3,
         eventReviewsCount: 2,
-        position: "self-end"
+        position: "self-end",
     },
-]
+];
 
 const filtersFeatureInfo = {
     badgeIcon: Sparkles,
     badgeText: "Filtros por tu Vibe",
     cardTitle: "Encuentra lo que buscas, sin rodeos",
-    cardDescription: "Olvídate de buscar en mil cuentas de Instagram. Todo el ecosistema de eventos en un solo lugar, filtrado por lo que realmente te interesa.",
-}
+    cardDescription:
+        "Olvídate de buscar en mil cuentas de Instagram. Todo el ecosistema de eventos en un solo lugar, filtrado por lo que realmente te interesa.",
+};
 
 const eventCategories = [
     {
@@ -85,41 +87,42 @@ const eventCategories = [
         name: "Fiesta",
         active: false,
     },
-]
+];
 
 const reviewsFeatureInfo = {
     badgeIcon: MessageCircle,
     badgeText: "Calificación real del público",
     cardTitle: "La verdad sobre el evento, dicha por usuarios como tú",
-    cardDescription: "¿El sonido fue malo? ¿La barra libre se acabó a la hora? Aquí las estrellas no se compran, se ganan. Lee la experiencia real antes de gastar un centimo.",
-}
+    cardDescription:
+        "¿El sonido fue malo? ¿La barra libre se acabó a la hora? Aquí las estrellas no se compran, se ganan. Lee la experiencia real antes de gastar un centimo.",
+};
 
 const userReviews = [
     {
         userName: "César",
         review: "Logística impecable, la entrada fue súper rápida a pesar de la fila.",
         photo: "/people/image_650.png",
-        position: "xl:self-start"
+        position: "xl:self-start",
     },
     {
         userName: "Rosa",
         review: "Segundo evento y a calidad se mantiene.",
         photo: "/people/image_154.png",
-        position: "xl:self-end"
+        position: "xl:self-end",
     },
     {
         userName: "Esteban",
         review: "Excelente vibra. Me sentí seguro todo el tiempo.",
         photo: "/people/image_768.png",
-        position: "xl:self-start"
-    }
-]
+        position: "xl:self-start",
+    },
+];
 
 export const FeaturesSection = () => {
     return (
-        <section className="flex flex-col bg-white py-16 px-4 gap-16">
-
-            <h2 className="text-meevent-primary text-2xl font-medium text-center xl:text-[40px]">Diseñamos una experiencia {` `}
+        <section className="flex flex-col bg-white py-16 px-4 gap-16 relative z-10">
+            <h2 className="text-meevent-primary text-2xl font-medium text-center xl:text-[40px]">
+                Diseñamos una experiencia {` `}
                 <span className="font-bold inline-block relative">
                     basada en la verdad
                     <span className="absolute left-0 -bottom-3 w-full h-3 bg-[url('/underline.svg')] bg-no-repeat bg-contain" />
@@ -127,41 +130,55 @@ export const FeaturesSection = () => {
             </h2>
 
             <div className="flex flex-col gap-16 xl:items-center xl:justify-center">
-
                 <div className="flex flex-col gap-8 xl:flex-row xl:w-270 xl:gap-15">
                     <FeatureInfo
-                        badgeIcon={reputationFeatureInfo.badgeIcon} badgeText={reputationFeatureInfo.badgeText}
-                        cardTitle={reputationFeatureInfo.cardTitle} cardDescription={reputationFeatureInfo.cardDescription} />
+                        badgeIcon={reputationFeatureInfo.badgeIcon}
+                        badgeText={reputationFeatureInfo.badgeText}
+                        cardTitle={reputationFeatureInfo.cardTitle}
+                        cardDescription={reputationFeatureInfo.cardDescription}
+                    />
 
                     <div className="flex flex-col gap-6 xl:flex-row xl:flex-wrap xl:h-70">
-                        {
-                            events.map(e => (
-                                <EventCard
-                                    key={e.eventTitle}
-                                    eventImg={e.eventImg}
-                                    eventTitle={e.eventTitle}
-                                    eventReviewsCount={e.eventReviewsCount}
-                                    eventStars={e.eventStars}
-                                    eventsCount={e.eventsCount}
-                                    position={e.position} />
-                            ))
-                        }
+                        {events.map((e) => (
+                            <EventCard
+                                key={e.eventTitle}
+                                eventImg={e.eventImg}
+                                eventTitle={e.eventTitle}
+                                eventReviewsCount={e.eventReviewsCount}
+                                eventStars={e.eventStars}
+                                eventsCount={e.eventsCount}
+                                position={e.position}
+                            />
+                        ))}
                     </div>
                 </div>
 
                 <div className="flex flex-col gap-8 xl:flex-row-reverse xl:w-270 xl:gap-15 xl:items-center">
                     <FeatureInfo
-                        badgeIcon={filtersFeatureInfo.badgeIcon} badgeText={filtersFeatureInfo.badgeText}
-                        cardTitle={filtersFeatureInfo.cardTitle} cardDescription={filtersFeatureInfo.cardDescription} />
+                        badgeIcon={filtersFeatureInfo.badgeIcon}
+                        badgeText={filtersFeatureInfo.badgeText}
+                        cardTitle={filtersFeatureInfo.cardTitle}
+                        cardDescription={filtersFeatureInfo.cardDescription}
+                    />
 
                     <div className="xl:hidden">
-                        <BadgeCarousel categories={eventCategories.slice(0, 3)} />
-                        <BadgeCarousel categories={eventCategories.slice(3, 5)} reverse />
+                        <BadgeCarousel
+                            categories={eventCategories.slice(0, 3)}
+                        />
+                        <BadgeCarousel
+                            categories={eventCategories.slice(3, 5)}
+                            reverse
+                        />
                     </div>
 
                     <div className="hidden xl:grid xl:grid-cols-6 xl:w-155 gap-3 items-center xl:h-45">
                         {eventCategories.map((cat, index) => {
-                            const colSpan = index < 3 ? "col-span-2" : index < 5 ? "col-span-3" : "col-span-6";
+                            const colSpan =
+                                index < 3
+                                    ? "col-span-2"
+                                    : index < 5
+                                      ? "col-span-3"
+                                      : "col-span-6";
 
                             return (
                                 <div
@@ -170,12 +187,23 @@ export const FeaturesSection = () => {
                                         flex items-center justify-center gap-2 px-11 
                                         h-10 w-fit shrink-0 rounded-full border border-[#750013]/10 shadow-sm 
                                         ${colSpan} justify-self-center
-                                        ${cat.active ? 'bg-meevent-primary' : 'bg-white'}
+                                        ${cat.active ? "bg-meevent-primary" : "bg-white"}
                                     `}
                                 >
-                                    <Image src={cat.icon} width={20} height={20} alt={cat.name} className="shrink-0" />
-                                    <span className={`text-sm font-bold whitespace-nowrap ${cat.active ? 'text-white' : 'text-meevent-primary'
-                                        }`}>
+                                    <Image
+                                        src={cat.icon}
+                                        width={20}
+                                        height={20}
+                                        alt={cat.name}
+                                        className="shrink-0"
+                                    />
+                                    <span
+                                        className={`text-sm font-bold whitespace-nowrap ${
+                                            cat.active
+                                                ? "text-white"
+                                                : "text-meevent-primary"
+                                        }`}
+                                    >
                                         {cat.name}
                                     </span>
                                 </div>
@@ -186,19 +214,25 @@ export const FeaturesSection = () => {
 
                 <div className="flex flex-col gap-5 xl:w-270 xl:gap-30 xl:flex-row">
                     <FeatureInfo
-                        badgeIcon={reviewsFeatureInfo.badgeIcon} badgeText={reviewsFeatureInfo.badgeText}
-                        cardTitle={reviewsFeatureInfo.cardTitle} cardDescription={reviewsFeatureInfo.cardDescription} />
+                        badgeIcon={reviewsFeatureInfo.badgeIcon}
+                        badgeText={reviewsFeatureInfo.badgeText}
+                        cardTitle={reviewsFeatureInfo.cardTitle}
+                        cardDescription={reviewsFeatureInfo.cardDescription}
+                    />
 
                     <div className="flex flex-col gap-6 xl:w-131 xl:gap-8">
-
-                        {
-                            userReviews.map(r => (
-                                <ReviewCard key={r.userName} name={r.userName} photo={r.photo} review={r.review} position={r.position} />
-                            ))
-                        }
+                        {userReviews.map((r) => (
+                            <ReviewCard
+                                key={r.userName}
+                                name={r.userName}
+                                photo={r.photo}
+                                review={r.review}
+                                position={r.position}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
         </section>
-    )
-}
+    );
+};
