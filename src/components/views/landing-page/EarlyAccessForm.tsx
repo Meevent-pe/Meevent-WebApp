@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { registerEarlyAccess, FormState } from "@/actions/earlyAccess";
-import { EarlyAccessButton } from "./ui/EarlyAccessButton";
+import { EarlyAccessButton } from "../../ui/EarlyAccessButton";
 
 const initialState: FormState = {
     success: false,

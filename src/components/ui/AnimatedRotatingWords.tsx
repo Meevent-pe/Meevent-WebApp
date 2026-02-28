@@ -19,7 +19,7 @@ const DEFAULT_WORDS = ["evento", "taller", "concierto", "feria", "curso"];
 
 export default function AnimatedRotatingWords({
     words = DEFAULT_WORDS,
-    intervalMs = 2500,
+    intervalMs = 1500,
 }: AnimatedRotatingWordsProps) {
     const safeWords = useMemo(() => {
         return Array.isArray(words) && words.length > 0 ? words : DEFAULT_WORDS;

@@ -1,6 +1,6 @@
-import { EarlyAccessForm } from "@/components/EarlyAccessForm";
-import { UserList } from "@/components/UserList";
+import { EarlyAccessForm } from "@/components/views/landing-page/EarlyAccessForm";
 import Image from "next/image";
+import { UserList } from "./UserList";
 
 export const FooterSection = ({ usersCount }: { usersCount: number }) => {
     return (

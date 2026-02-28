@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarGroup, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarGroup, AvatarImage } from "@/components/ui/avatar";
 
 const usersPictures = [
     {
