@@ -11,7 +11,7 @@ export const EarlyAccessButton = ({
   className = "",
   disabled = false,
 }: EarlyAccessButtonProps) => {
-  const base = "bg-black font-bold text-white rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+  const base = "bg-black font-bold text-white rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-neutral-800 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
 
   const variants = {
     header: "py-3.5 px-10 text-[14px] xl:text-[18px] xl:px-16",
