@@ -22,20 +22,15 @@ function validateEmail(value: string) {
 }
 
 export const EarlyAccessForm = () => {
-    const [state, formAction, isPending] = useActionState(
-        registerEarlyAccess,
-        initialState
-    );
+    const [state, formAction, isPending] = useActionState(registerEarlyAccess, initialState);
 
     const [nameError, setNameError] = useState("");
     const [emailError, setEmailError] = useState("");
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         const form = e.currentTarget;
-        const name = (form.elements.namedItem("name") as HTMLInputElement)
-            .value;
-        const email = (form.elements.namedItem("email") as HTMLInputElement)
-            .value;
+        const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+        const email = (form.elements.namedItem("email") as HTMLInputElement).value;
 
         const nErr = validateName(name);
         const eErr = validateEmail(email);
@@ -43,10 +38,8 @@ export const EarlyAccessForm = () => {
         setNameError(nErr);
         setEmailError(eErr);
 
-        if (nErr === "Ingresa tu nombre")
-            setTimeout(() => setNameError(""), 3000);
-        if (eErr === "Ingresa tu correo")
-            setTimeout(() => setEmailError(""), 3000);
+        if (nErr === "Ingresa tu nombre") setTimeout(() => setNameError(""), 3000);
+        if (eErr === "Ingresa tu correo") setTimeout(() => setEmailError(""), 3000);
 
         if (nErr || eErr) {
             e.preventDefault();
@@ -64,9 +57,7 @@ export const EarlyAccessForm = () => {
             className="flex flex-col gap-4"
         >
             <fieldset className="flex flex-col gap-4 xl:flex-row xl:items-start">
-                <legend className="sr-only">
-                    Formulario de acceso anticipado
-                </legend>
+                <legend className="sr-only">Formulario de acceso anticipado</legend>
 
                 <div className="flex flex-col gap-1.5">
                     <label htmlFor="name" className="sr-only">
@@ -80,12 +71,8 @@ export const EarlyAccessForm = () => {
                         disabled={isPending}
                         autoComplete="name"
                         onChange={() => setNameError("")}
-                        aria-describedby={
-                            nameError || serverNameError
-                                ? "name-error"
-                                : undefined
-                        }
-                        className={`bg-white rounded-2xl w-full text-black p-4 xl:w-70 xl:px-6 outline-none border-2 transition-all ${
+                        aria-describedby={nameError || serverNameError ? "name-error" : undefined}
+                        className={`w-full rounded-2xl border-2 bg-white p-4 text-black transition-all outline-none xl:w-70 xl:px-6 ${
                             nameError || serverNameError
                                 ? "border-red-400"
                                 : "border-transparent focus:border-black"
@@ -94,12 +81,11 @@ export const EarlyAccessForm = () => {
                     <p
                         id="name-error"
                         role="alert"
-                        className="text-white/90 text-sm font-medium px-2 flex items-center gap-1 h-5"
+                        className="flex h-5 items-center gap-1 px-2 text-sm font-medium text-white/90"
                     >
                         {(nameError || serverNameError) && (
                             <>
-                                <span aria-hidden>⚠</span>{" "}
-                                {nameError || serverNameError}
+                                <span aria-hidden>⚠</span> {nameError || serverNameError}
                             </>
                         )}
                     </p>
@@ -118,11 +104,9 @@ export const EarlyAccessForm = () => {
                         autoComplete="email"
                         onChange={() => setEmailError("")}
                         aria-describedby={
-                            emailError || serverEmailError
-                                ? "email-error"
-                                : undefined
+                            emailError || serverEmailError ? "email-error" : undefined
                         }
-                        className={`bg-white rounded-2xl w-full text-black p-4 xl:w-70 xl:px-6 outline-none border-2 transition-all ${
+                        className={`w-full rounded-2xl border-2 bg-white p-4 text-black transition-all outline-none xl:w-70 xl:px-6 ${
                             emailError || serverEmailError
                                 ? "border-red-400"
                                 : "border-transparent focus:border-black"
@@ -131,38 +115,27 @@ export const EarlyAccessForm = () => {
                     <p
                         id="email-error"
                         role="alert"
-                        className="text-white/90 text-sm font-medium px-2 flex items-center gap-1 h-5"
+                        className="flex h-5 items-center gap-1 px-2 text-sm font-medium text-white/90"
                     >
                         {(emailError || serverEmailError) && (
                             <>
-                                <span aria-hidden>⚠</span>{" "}
-                                {emailError || serverEmailError}
+                                <span aria-hidden>⚠</span> {emailError || serverEmailError}
                             </>
                         )}
                     </p>
                 </div>
 
                 <div className="flex flex-col gap-1.5 xl:self-start">
-                    <EarlyAccessButton
-                        variant="form"
-                        type="submit"
-                        disabled={isPending}
-                    />
+                    <EarlyAccessButton variant="form" type="submit" disabled={isPending} />
                     <p
                         role="status"
-                        className={`text-sm font-medium px-2 flex items-center gap-1 h-5 ${state.success ? "text-green-300" : "text-white/90"}`}
+                        className={`flex h-5 items-center gap-1 px-2 text-sm font-medium ${state.success ? "text-green-300" : "text-white/90"}`}
                     >
-                        {state.message &&
-                            !state.errors &&
-                            !nameError &&
-                            !emailError && (
-                                <>
-                                    <span aria-hidden>
-                                        {state.success ? "✓" : "⚠"}
-                                    </span>{" "}
-                                    {state.message}
-                                </>
-                            )}
+                        {state.message && !state.errors && !nameError && !emailError && (
+                            <>
+                                <span aria-hidden>{state.success ? "✓" : "⚠"}</span> {state.message}
+                            </>
+                        )}
                     </p>
                 </div>
             </fieldset>

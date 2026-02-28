@@ -36,6 +36,4 @@ function getFirebaseAdmin() {
 
 const adminApp = getFirebaseAdmin();
 
-export const db: FirebaseFirestore.Firestore | null = adminApp
-    ? adminApp.firestore()
-    : null;
+export const db: FirebaseFirestore.Firestore | null = adminApp ? adminApp.firestore() : null;

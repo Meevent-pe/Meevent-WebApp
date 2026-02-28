@@ -23,7 +23,7 @@ export const BadgeCarousel = ({
                 {items.map((cat, idx) => (
                     <div
                         key={`${cat.name}-${idx}`}
-                        className={`flex items-center gap-2 px-6 py-2 rounded-full border border-[#750013]/10 shadow-sm shrink-0 ${
+                        className={`flex shrink-0 items-center gap-2 rounded-full border border-[#750013]/10 px-6 py-2 shadow-sm ${
                             cat.active ? "bg-meevent-primary" : "bg-white"
                         }`}
                     >
@@ -36,9 +36,7 @@ export const BadgeCarousel = ({
                         />
                         <span
                             className={`text-sm font-bold whitespace-nowrap ${
-                                cat.active
-                                    ? "text-white"
-                                    : "text-meevent-primary"
+                                cat.active ? "text-white" : "text-meevent-primary"
                             }`}
                         >
                             {cat.name}

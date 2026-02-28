@@ -8,54 +8,31 @@ import { db } from "@/lib/firebaseAdmin";
 
 export default async function Home() {
     const totalLeads = db
-        ? ((await db.collection("stats").doc("leadsCounter").get()).data()
-              ?.total ?? 0)
+        ? ((await db.collection("stats").doc("leadsCounter").get()).data()?.total ?? 0)
         : 0;
     return (
         <main>
-            <section
-                className="
-                px-3.75 bg-linear-to-t from-[#AB2037] from-0% to-meevent-primary to-40% 
-                xl:w-full xl:bg-[url('/foto-hero-2_1.png')] xl:bg-cover xl:bg-no-repeat xl:bg-center xl:flex xl:flex-col xl:py-11 xl:items-center
-            "
-            >
-                <header
-                    className="
-                    flex justify-between items-center py-4
-                    xl:w-269
-                "
-                >
-                    <MeeventLogo className="text-white w-25" />
+            <section className="to-meevent-primary bg-linear-to-t from-[#AB2037] from-0% to-40% px-3.75 xl:flex xl:w-full xl:flex-col xl:items-center xl:bg-[url('/foto-hero-2_1.png')] xl:bg-cover xl:bg-center xl:bg-no-repeat xl:py-11">
+                <header className="flex items-center justify-between py-4 xl:w-269">
+                    <MeeventLogo className="w-25 text-white" />
                     <EarlyAccessButton variant="header" type="submit" className="hidden" />
                 </header>
 
-                <div className="py-10 flex flex-col gap-10 xl:w-269 xl">
+                <div className="flex flex-col gap-10 py-10 xl:w-269">
                     <div>
-                        <h1
-                            className="
-                        font-semibold text-white text-[32px]/10 text-center 
-                        xl:text-[44px]/14 xl:text-start xl:w-207
-                        "
-                        >
+                        <h1 className="text-center text-[32px]/10 font-semibold text-white xl:w-207 xl:text-start xl:text-[44px]/14">
                             No vuelvas a desperdiciar un fin de semana en un mal{" "}
-                            <span className="font-black inline-block relative">
+                            <span className="relative inline-block font-black">
                                 evento
-                                <span className="absolute left-0 -bottom-3 w-full h-3 bg-[url('/vector_1.svg')] bg-no-repeat bg-contain" />
+                                <span className="absolute -bottom-3 left-0 h-3 w-full bg-[url('/vector_1.svg')] bg-contain bg-no-repeat" />
                             </span>
                         </h1>
                         <h2 className="sr-only">
-                            Plataforma para descubrir eventos confiables con
-                            reseñas reales en Perú
+                            Plataforma para descubrir eventos confiables con reseñas reales en Perú
                         </h2>
-                        <p
-                            className="
-                        font-medium text-center text-white text-[18px] mt-10
-                        xl:text-[24px] xl:text-start xl:w-170
-                        "
-                        >
-                            Encuentra los mejores planes con la seguridad de
-                            reseñas reales y un ranking de organizadores que no
-                            miente.
+                        <p className="mt-10 text-center text-[18px] font-medium text-white xl:w-170 xl:text-start xl:text-[24px]">
+                            Encuentra los mejores planes con la seguridad de reseñas reales y un
+                            ranking de organizadores que no miente.
                         </p>
                     </div>
                     <div>

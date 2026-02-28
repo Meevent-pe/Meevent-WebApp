@@ -120,17 +120,17 @@ const userReviews = [
 
 export const FeaturesSection = () => {
     return (
-        <section className="flex flex-col bg-white py-16 px-4 gap-16 relative z-10">
-            <h2 className="text-meevent-primary text-2xl font-medium text-center xl:text-[40px]">
+        <section className="relative z-10 flex flex-col gap-16 bg-white px-4 py-16">
+            <h2 className="text-meevent-primary text-center text-2xl font-medium xl:text-[40px]">
                 Diseñamos una experiencia {` `}
-                <span className="font-bold inline-block relative">
+                <span className="relative inline-block font-bold">
                     basada en la verdad
-                    <span className="absolute left-0 -bottom-3 w-full h-3 bg-[url('/underline.svg')] bg-no-repeat bg-contain" />
+                    <span className="absolute -bottom-3 left-0 h-3 w-full bg-[url('/underline.svg')] bg-contain bg-no-repeat" />
                 </span>
             </h2>
 
             <div className="flex flex-col gap-16 xl:items-center xl:justify-center">
-                <div className="flex flex-col gap-8 xl:flex-row xl:w-270 xl:gap-15">
+                <div className="flex flex-col gap-8 xl:w-270 xl:flex-row xl:gap-15">
                     <FeatureInfo
                         badgeIcon={reputationFeatureInfo.badgeIcon}
                         badgeText={reputationFeatureInfo.badgeText}
@@ -138,7 +138,7 @@ export const FeaturesSection = () => {
                         cardDescription={reputationFeatureInfo.cardDescription}
                     />
 
-                    <div className="flex flex-col gap-6 xl:flex-row xl:flex-wrap xl:h-70">
+                    <div className="flex flex-col gap-6 xl:h-70 xl:flex-row xl:flex-wrap">
                         {events.map((e) => (
                             <EventCard
                                 key={e.eventTitle}
@@ -153,7 +153,7 @@ export const FeaturesSection = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-8 xl:flex-row-reverse xl:w-270 xl:gap-15 xl:items-center">
+                <div className="flex flex-col gap-8 xl:w-270 xl:flex-row-reverse xl:items-center xl:gap-15">
                     <FeatureInfo
                         badgeIcon={filtersFeatureInfo.badgeIcon}
                         badgeText={filtersFeatureInfo.badgeText}
@@ -162,33 +162,19 @@ export const FeaturesSection = () => {
                     />
 
                     <div className="xl:hidden">
-                        <BadgeCarousel
-                            categories={eventCategories.slice(0, 3)}
-                        />
-                        <BadgeCarousel
-                            categories={eventCategories.slice(3, 5)}
-                            reverse
-                        />
+                        <BadgeCarousel categories={eventCategories.slice(0, 3)} />
+                        <BadgeCarousel categories={eventCategories.slice(3, 5)} reverse />
                     </div>
 
-                    <div className="hidden xl:grid xl:grid-cols-6 xl:w-155 gap-3 items-center xl:h-45">
+                    <div className="hidden items-center gap-3 xl:grid xl:h-45 xl:w-155 xl:grid-cols-6">
                         {eventCategories.map((cat, index) => {
                             const colSpan =
-                                index < 3
-                                    ? "col-span-2"
-                                    : index < 5
-                                      ? "col-span-3"
-                                      : "col-span-6";
+                                index < 3 ? "col-span-2" : index < 5 ? "col-span-3" : "col-span-6";
 
                             return (
                                 <div
                                     key={cat.name}
-                                    className={`
-                                        flex items-center justify-center gap-2 px-11 
-                                        h-10 w-fit shrink-0 rounded-full border border-[#750013]/10 shadow-sm 
-                                        ${colSpan} justify-self-center
-                                        ${cat.active ? "bg-meevent-primary" : "bg-white"}
-                                    `}
+                                    className={`flex h-10 w-fit shrink-0 items-center justify-center gap-2 rounded-full border border-[#750013]/10 px-11 shadow-sm ${colSpan} justify-self-center ${cat.active ? "bg-meevent-primary" : "bg-white"} `}
                                 >
                                     <Image
                                         src={cat.icon}
@@ -199,9 +185,7 @@ export const FeaturesSection = () => {
                                     />
                                     <span
                                         className={`text-sm font-bold whitespace-nowrap ${
-                                            cat.active
-                                                ? "text-white"
-                                                : "text-meevent-primary"
+                                            cat.active ? "text-white" : "text-meevent-primary"
                                         }`}
                                     >
                                         {cat.name}
@@ -212,7 +196,7 @@ export const FeaturesSection = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-5 xl:w-270 xl:gap-30 xl:flex-row">
+                <div className="flex flex-col gap-5 xl:w-270 xl:flex-row xl:gap-30">
                     <FeatureInfo
                         badgeIcon={reviewsFeatureInfo.badgeIcon}
                         badgeText={reviewsFeatureInfo.badgeText}
