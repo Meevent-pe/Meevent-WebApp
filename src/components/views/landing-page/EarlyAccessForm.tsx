@@ -81,7 +81,7 @@ export const EarlyAccessForm = () => {
                     <p
                         id="name-error"
                         role="alert"
-                        className="flex h-5 items-center gap-1 px-2 text-sm font-medium text-white/90"
+                        className="flex h-2 items-center gap-1 px-2 text-sm font-medium text-white/90"
                     >
                         {(nameError || serverNameError) && (
                             <>
@@ -115,7 +115,7 @@ export const EarlyAccessForm = () => {
                     <p
                         id="email-error"
                         role="alert"
-                        className="flex h-5 items-center gap-1 px-2 text-sm font-medium text-white/90"
+                        className="flex h-2 items-center gap-1 px-2 text-sm font-medium text-white/90"
                     >
                         {(emailError || serverEmailError) && (
                             <>
@@ -129,7 +129,7 @@ export const EarlyAccessForm = () => {
                     <EarlyAccessButton variant="form" type="submit" disabled={isPending} />
                     <p
                         role="status"
-                        className={`flex h-5 items-center gap-1 px-2 text-sm font-medium ${state.success ? "text-green-300" : "text-white/90"}`}
+                        className={`flex h-3 items-center gap-1 px-2 text-sm font-medium ${state.success ? "text-green-300" : "text-white/90"}`}
                     >
                         {state.message && !state.errors && !nameError && !emailError && (
                             <>
