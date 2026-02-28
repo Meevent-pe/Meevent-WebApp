@@ -29,7 +29,7 @@ export default async function Home() {
                         xl:text-[44px]/14 xl:text-start xl:w-207
                     ">
                         No vuelvas a desperdiciar un fin de semana en un mal{" "}
-                        <span className="font-black inline-block relative">evento
+                        <span className="font-black inline-block relative transition-transform duration-300 hover:-translate-y-2 cursor-default">evento
                             <span className="absolute left-0 -bottom-3 w-full h-3 bg-[url('/vector_1.svg')] bg-no-repeat bg-contain" />
                         </span>
                     </h1>
