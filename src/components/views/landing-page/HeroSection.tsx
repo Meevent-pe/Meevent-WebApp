@@ -1,4 +1,3 @@
-import { EarlyAccessButton } from "@/components/ui/EarlyAccessButton";
 import { MeeventLogo } from "@/components/ui/MeeventLogo";
 import { EarlyAccessForm } from "./EarlyAccessForm";
 import { UserList } from "./UserList";
@@ -15,7 +14,9 @@ export const HeroSection = ({ usersCount }: { usersCount: number }) => {
                 <div>
                     <h1 className="text-center text-[32px]/10 font-semibold text-white xl:w-207 xl:text-start xl:text-[44px]/14">
                         No vuelvas a desperdiciar un fin de semana en un mal{" "}
-                        <AnimatedRotatingWords />
+                        <span className="block xl:inline-block">
+                            <AnimatedRotatingWords />
+                        </span>
                     </h1>
                     <h2 className="sr-only">
                         Plataforma para descubrir eventos confiables con reseñas reales en Perú

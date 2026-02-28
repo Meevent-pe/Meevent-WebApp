@@ -15,7 +15,7 @@ interface AnimatedRotatingWordsProps {
     intervalMs?: number;
 }
 
-const DEFAULT_WORDS = ["evento", "taller", "concierto", "feria", "curso"];
+const DEFAULT_WORDS = ["evento", "taller", "concierto", "curso"];
 
 export default function AnimatedRotatingWords({
     words = DEFAULT_WORDS,
