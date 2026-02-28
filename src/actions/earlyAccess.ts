@@ -42,6 +42,10 @@ export async function registerEarlyAccess(
     }
 
     try {
+        if (!db) {
+            return { success: false, message: "Base de datos no disponible." };
+        }
+
         const leadRef = db.collection("leads").doc(email);
         const counterRef = db.collection("stats").doc("leadsCounter");
 
