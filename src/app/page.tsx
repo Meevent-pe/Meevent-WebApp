@@ -1,5 +1,6 @@
 import { EarlyAccessForm } from "@/components/EarlyAccessForm";
 import { MeeventLogo } from "@/components/MeeventLogo";
+import AnimatedRotatingWords from "@/components/ui/AnimatedRotatingWords";
 import { EarlyAccessButton } from "@/components/ui/EarlyAccessButton";
 import { UserList } from "@/components/UserList";
 import { FeaturesSection } from "@/components/views/landing-page/FeaturesSection";
@@ -31,9 +32,7 @@ export default async function Home() {
                         xl:text-[44px]/14 xl:text-start xl:w-207
                         ">
                             No vuelvas a desperdiciar un fin de semana en un mal{" "}
-                            <span className="font-black inline-block relative">evento
-                                <span className="absolute left-0 -bottom-3 w-full h-3 bg-[url('/vector_1.svg')] bg-no-repeat bg-contain" />
-                            </span>
+                            <AnimatedRotatingWords />
                         </h1>
                         <h2 className="sr-only">
                             Plataforma para descubrir eventos confiables con reseñas reales en Perú
