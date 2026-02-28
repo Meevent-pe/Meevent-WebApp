@@ -8,8 +8,7 @@ export const HeroSection = ({ usersCount }: { usersCount: number }) => {
     return (
         <section className="to-meevent-primary bg-linear-to-t from-[#AB2037] from-0% to-40% px-3.75 xl:flex xl:w-full xl:flex-col xl:items-center xl:bg-[url('/foto-hero-2_1.png')] xl:bg-cover xl:bg-center xl:bg-no-repeat xl:py-11">
             <header className="flex items-center justify-between py-4 xl:w-269">
-                <MeeventLogo className="w-25 text-white" />
-                <EarlyAccessButton variant="header" type="submit" className="hidden" />
+                <MeeventLogo className="m-auto w-35 text-white xl:m-0" />
             </header>
 
             <div className="flex flex-col gap-10 py-10 xl:w-269">

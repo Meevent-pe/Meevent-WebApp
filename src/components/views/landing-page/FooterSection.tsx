@@ -4,7 +4,10 @@ import { UserList } from "./UserList";
 
 export const FooterSection = ({ usersCount }: { usersCount: number }) => {
     return (
-        <div className="relative flex justify-center px-4 pt-10 pb-5 xl:pb-0">
+        <section
+            id="early-access-form-footer"
+            className="relative flex justify-center px-4 pt-10 pb-5 xl:pb-0"
+        >
             <div className="bg-footer-banner relative z-20 flex flex-col gap-6 rounded-[36px] bg-cover bg-center bg-no-repeat px-6 py-13 xl:w-272 xl:items-center xl:rounded-b-none xl:pt-14 xl:pb-22">
                 <div className="flex flex-col gap-6 xl:max-w-175">
                     <h3 className="relative text-center text-[24px] font-bold text-white xl:text-4xl">
@@ -51,6 +54,6 @@ export const FooterSection = ({ usersCount }: { usersCount: number }) => {
                     className="w-full xl:h-168"
                 />
             </div>
-        </div>
+        </section>
     );
 };
