@@ -1,8 +1,10 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { registerEarlyAccess, FormState } from "@/actions/earlyAccess";
 import { EarlyAccessButton } from "../../ui/EarlyAccessButton";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 const initialState: FormState = {
     success: false,
@@ -20,12 +22,46 @@ function validateEmail(value: string) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Correo no válido";
     return "";
 }
-
 export const EarlyAccessForm = () => {
     const [state, formAction, isPending] = useActionState(registerEarlyAccess, initialState);
-
     const [nameError, setNameError] = useState("");
     const [emailError, setEmailError] = useState("");
+
+    useEffect(() => {
+        if (state.success) {
+            toast.custom(
+                (t) => (
+                    <div className="flex w-full items-center justify-center gap-4 rounded-3xl border border-gray-100 bg-white p-4 shadow-2xl xl:max-w-300 xl:px-10">
+                        <div className="border-meevent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-4">
+                            <svg
+                                className="text-meevent-primary h-4 w-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="4"
+                                    d="M5 13l4 4L19 7"
+                                ></path>
+                            </svg>
+                        </div>
+
+                        <p className="w-full text-start text-[18px] leading-[1.1] font-bold tracking-tight text-black">
+                            Felicidades, ya estás registrado
+                        </p>
+                    </div>
+                ),
+                {
+                    duration: 3000,
+                    position: "top-center",
+                    className: "xl:!w-[400px]",
+                }
+            );
+        }
+    }, [state.success]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         const form = e.currentTarget;
@@ -37,9 +73,6 @@ export const EarlyAccessForm = () => {
 
         setNameError(nErr);
         setEmailError(eErr);
-
-        if (nErr === "Ingresa tu nombre") setTimeout(() => setNameError(""), 3000);
-        if (eErr === "Ingresa tu correo") setTimeout(() => setEmailError(""), 3000);
 
         if (nErr || eErr) {
             e.preventDefault();
@@ -56,46 +89,42 @@ export const EarlyAccessForm = () => {
             onSubmit={handleSubmit}
             className="flex flex-col gap-4"
         >
-            <fieldset className="flex flex-col gap-4 xl:flex-row xl:items-start">
+            <fieldset className="flex flex-col gap-4 xl:flex-row xl:items-start xl:gap-6">
                 <legend className="sr-only">Formulario de acceso anticipado</legend>
 
-                <div className="flex flex-col gap-1.5">
+                {/* NOMBRE */}
+                <div className="relative flex flex-col gap-1.5 pb-6">
                     <label htmlFor="name" className="sr-only">
                         Nombre
                     </label>
-                    <input
+                    <Input
                         id="name"
                         name="name"
-                        type="text"
                         placeholder="Nombre"
                         disabled={isPending}
                         autoComplete="name"
                         onChange={() => setNameError("")}
-                        aria-describedby={nameError || serverNameError ? "name-error" : undefined}
-                        className={`w-full rounded-2xl border-2 bg-white p-4 text-black transition-all outline-none xl:w-70 xl:px-6 ${
+                        className={`h-auto w-full rounded-2xl border-2 bg-white p-4 text-black transition-all outline-none xl:w-60 xl:px-6 ${
                             nameError || serverNameError
-                                ? "border-red-400"
-                                : "border-transparent focus:border-black"
+                                ? "border-red-600 focus-visible:ring-red-400"
+                                : "focus-visible:ring-meevent-primary border-transparent focus-visible:ring-1"
                         }`}
                     />
-                    <p
-                        id="name-error"
-                        role="alert"
-                        className="flex h-2 items-center gap-1 px-2 text-sm font-medium text-white/90"
-                    >
+                    <p className="absolute bottom-1 left-2 flex items-center gap-1 text-[12px] font-medium text-white/90">
                         {(nameError || serverNameError) && (
                             <>
-                                <span aria-hidden>⚠</span> {nameError || serverNameError}
+                                <span>⚠</span> {nameError || serverNameError}
                             </>
                         )}
                     </p>
                 </div>
 
-                <div className="flex flex-col gap-1.5">
+                {/* EMAIL */}
+                <div className="relative flex flex-col gap-1.5 pb-6">
                     <label htmlFor="email" className="sr-only">
                         Correo electrónico
                     </label>
-                    <input
+                    <Input
                         id="email"
                         name="email"
                         type="email"
@@ -103,40 +132,23 @@ export const EarlyAccessForm = () => {
                         disabled={isPending}
                         autoComplete="email"
                         onChange={() => setEmailError("")}
-                        aria-describedby={
-                            emailError || serverEmailError ? "email-error" : undefined
-                        }
-                        className={`w-full rounded-2xl border-2 bg-white p-4 text-black transition-all outline-none xl:w-70 xl:px-6 ${
+                        className={`h-auto w-full rounded-2xl border-2 bg-white p-4 text-black transition-all outline-none xl:w-80 xl:px-6 ${
                             emailError || serverEmailError
-                                ? "border-red-400"
-                                : "border-transparent focus:border-black"
+                                ? "border-red-600 focus-visible:ring-red-400"
+                                : "focus-visible:ring-meevent-primary border-transparent focus-visible:ring-1"
                         }`}
                     />
-                    <p
-                        id="email-error"
-                        role="alert"
-                        className="flex h-2 items-center gap-1 px-2 text-sm font-medium text-white/90"
-                    >
+                    <p className="absolute bottom-1 left-2 flex items-center gap-1 text-[12px] font-medium text-white/90">
                         {(emailError || serverEmailError) && (
                             <>
-                                <span aria-hidden>⚠</span> {emailError || serverEmailError}
+                                <span>⚠</span> {emailError || serverEmailError}
                             </>
                         )}
                     </p>
                 </div>
 
-                <div className="flex flex-col gap-1.5 xl:self-start">
+                <div className="relative flex flex-col gap-1.5 xl:self-start">
                     <EarlyAccessButton variant="form" type="submit" disabled={isPending} />
-                    <p
-                        role="status"
-                        className={`flex h-3 items-center gap-1 px-2 text-sm font-medium ${state.success ? "text-green-300" : "text-white/90"}`}
-                    >
-                        {state.message && !state.errors && !nameError && !emailError && (
-                            <>
-                                <span aria-hidden>{state.success ? "✓" : "⚠"}</span> {state.message}
-                            </>
-                        )}
-                    </p>
                 </div>
             </fieldset>
         </form>

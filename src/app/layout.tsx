@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
     variable: "--font-inter",
@@ -59,6 +60,7 @@ export default function RootLayout({
                 className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} font-inter antialiased`}
             >
                 {children}
+                <Toaster position="top-center" />
             </body>
         </html>
     );
