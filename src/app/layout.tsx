@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
@@ -62,6 +63,7 @@ export default function RootLayout({
                 {children}
                 <Toaster position="top-center" />
             </body>
+            <GoogleAnalytics gaId="G-9WYFY4774T" />
         </html>
     );
 }

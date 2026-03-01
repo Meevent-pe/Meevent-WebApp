@@ -5,6 +5,7 @@ import { registerEarlyAccess, FormState } from "@/actions/earlyAccess";
 import { EarlyAccessButton } from "../../ui/EarlyAccessButton";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { sendGAEvent } from "@next/third-parties/google";
 
 const initialState: FormState = {
     success: false,
@@ -29,6 +30,13 @@ export const EarlyAccessForm = () => {
 
     useEffect(() => {
         if (state.success) {
+            sendGAEvent("event", "generate_lead", {
+                value: "early_access_form",
+                label: "registro_exitoso",
+            });
+
+            console.log("✅ Intento de envío a GA4 ejecutado");
+
             toast.custom(
                 (t) => (
                     <div className="flex w-full items-center justify-center gap-4 rounded-3xl border border-gray-100 bg-white p-4 shadow-2xl xl:max-w-300 xl:px-10">
