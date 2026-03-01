@@ -26,7 +26,9 @@ export const UserList = ({ usersCount = 0 }: Props) => {
                 {usersPictures.map((user) => (
                     <Avatar key={user.imgPath}>
                         <AvatarImage src={user.imgPath} />
-                        <AvatarFallback>{user.name}</AvatarFallback>
+                        <AvatarFallback className="animate-pulse border border-white/20 bg-white/10 text-transparent backdrop-blur-md">
+                            {user.name[0]}
+                        </AvatarFallback>
                     </Avatar>
                 ))}
             </AvatarGroup>
