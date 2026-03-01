@@ -1,5 +1,7 @@
 import { db } from "@/lib/firebaseAdmin";
 
+export const dynamic = "force-dynamic";
+
 import { FeaturesSection } from "@/components/views/landing-page/FeaturesSection";
 import { FooterSection } from "@/components/views/landing-page/FooterSection";
 import { HeroSection } from "@/components/views/landing-page/HeroSection";
