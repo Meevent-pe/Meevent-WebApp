@@ -10,6 +10,9 @@ importers:
             "@google-cloud/firestore":
                 specifier: ^8.3.0
                 version: 8.3.0
+            "@microsoft/clarity":
+                specifier: ^1.0.2
+                version: 1.0.2
             "@next/third-parties":
                 specifier: ^16.1.6
                 version: 16.1.6(next@16.1.6(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)
@@ -921,6 +924,12 @@ packages:
         resolution:
             {
                 integrity: sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==,
+            }
+
+    "@microsoft/clarity@1.0.2":
+        resolution:
+            {
+                integrity: sha512-9EZYROFpJxEGmQpHvUFqvD3ZJ7QQSqnibYSWmS+1xusoZfG1QQ1/Al9yVBBc11DWMbJrs1pe1hLT273it/skJg==,
             }
 
     "@modelcontextprotocol/sdk@1.26.0":
@@ -7602,6 +7611,8 @@ snapshots:
             "@jridgewell/sourcemap-codec": 1.5.5
 
     "@js-sdsl/ordered-map@4.4.2": {}
+
+    "@microsoft/clarity@1.0.2": {}
 
     "@modelcontextprotocol/sdk@1.26.0(zod@3.25.76)":
         dependencies:
