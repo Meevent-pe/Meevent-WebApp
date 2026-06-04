@@ -1,9 +1,9 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
-import { registerEarlyAccess, FormState } from "@/actions/earlyAccess";
-import { EarlyAccessButton } from "../../ui/EarlyAccessButton";
-import { Input } from "@/components/ui/input";
+import { registerEarlyAccess, FormState } from "@/app/(landing)/_actions/earlyAccess";
+import { EarlyAccessButton } from "@/shared/components/ui/EarlyAccessButton";
+import { Input } from "@/shared/components/ui/input";
 import { toast } from "sonner";
 import { sendGAEvent } from "@next/third-parties/google";
 

@@ -10,7 +10,7 @@ import {
     FILTERS_FEATURE,
     REPUTATION_FEATURE,
     REVIEWS_FEATURE,
-} from "@/constants/landing-features";
+} from "../_constants/landing-features";
 
 export const FeaturesSection = () => {
     return (
@@ -19,7 +19,7 @@ export const FeaturesSection = () => {
                 Diseñamos una experiencia {` `}
                 <span className="relative inline-block font-bold">
                     basada en la verdad
-                    <span className="absolute -bottom-3 left-0 h-3 w-full bg-[url('/underline.svg')] bg-contain bg-no-repeat" />
+                    <span className="absolute -bottom-3 left-0 h-3 w-full bg-[url('/ui/underline.svg')] bg-contain bg-no-repeat" />
                 </span>
             </h2>
 

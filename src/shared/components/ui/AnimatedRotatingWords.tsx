@@ -103,7 +103,7 @@ export default function AnimatedRotatingWords({
                 <motion.span
                     layout
                     transition={springTransition}
-                    className="absolute -bottom-3 left-0 h-3 w-full bg-[url('/vector_1.svg')] bg-size-[100%_100%] bg-no-repeat"
+                    className="absolute -bottom-3 left-0 h-3 w-full bg-[url('/ui/vector_1.svg')] bg-size-[100%_100%] bg-no-repeat"
                 />
             </motion.span>
         </span>

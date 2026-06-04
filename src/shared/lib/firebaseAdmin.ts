@@ -17,7 +17,6 @@ function getFirebaseAdmin() {
     const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
     const privateKey = formatPrivateKey(process.env.FIREBASE_PRIVATE_KEY);
 
-    // Si faltan las credenciales, no inicializar para desarrollo local
     if (!projectId || !clientEmail || !privateKey) {
         console.warn(
             "Firebase: variables de entorno no configuradas (FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY). Firestore no estará disponible."

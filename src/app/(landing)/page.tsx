@@ -1,11 +1,11 @@
-import { db } from "@/lib/firebaseAdmin";
+import { db } from "@/shared/lib/firebaseAdmin";
 
 export const dynamic = "force-dynamic";
 
-import { FeaturesSection } from "@/components/views/landing-page/FeaturesSection";
-import { FooterSection } from "@/components/views/landing-page/FooterSection";
-import { HeroSection } from "@/components/views/landing-page/HeroSection";
-import { Navbar } from "@/components/views/landing-page/Navbar";
+import { FeaturesSection } from "@/app/(landing)/_components/FeaturesSection";
+import { FooterSection } from "@/app/(landing)/_components/FooterSection";
+import { HeroSection } from "@/app/(landing)/_components/HeroSection";
+import { Navbar } from "@/app/(landing)/_components/Navbar";
 
 export default async function Home() {
     const totalLeads = db

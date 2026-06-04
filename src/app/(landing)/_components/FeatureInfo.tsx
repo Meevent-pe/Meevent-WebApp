@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/Badge";
+import { Badge } from "@/shared/components/ui/Badge";
 import { LucideIcon } from "lucide-react";
 
 export interface FeatureInfoProps {

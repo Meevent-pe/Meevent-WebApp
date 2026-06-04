@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, Transition } from "motion/react"; // Importamos el tipo Transition
-import { MeeventLogo } from "@/components/ui/MeeventLogo";
-import { EarlyAccessButton } from "@/components/ui/EarlyAccessButton";
+import { MeeventLogo } from "@/shared/components/ui/MeeventLogo";
+import { EarlyAccessButton } from "@/shared/components/ui/EarlyAccessButton";
 
 // Opción A: Definir el tipo explícitamente para que TS esté contento
 const springTransition: Transition = {
