@@ -1,4 +1,4 @@
-import { EarlyAccessForm } from "@/components/views/landing-page/EarlyAccessForm";
+import { EarlyAccessForm } from "@/app/(landing)/_components/EarlyAccessForm";
 import Image from "next/image";
 import { UserList } from "./UserList";
 

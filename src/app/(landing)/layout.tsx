@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
-import "./globals.css";
+import "@/app/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { Toaster } from "@/components/ui/sonner";
-import MsClarity from "@/components/analytics/clarity-init";
+import { Toaster } from "@/shared/components/ui/sonner";
+import MsClarity from "@/shared/providers/clarity-init";
 
 const inter = Inter({
     variable: "--font-inter",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
         siteName: "Meevent",
         images: [
             {
-                url: "/og-image.png",
+                url: "/og/og-image.png",
                 width: 1200,
                 height: 630,
                 alt: "Meevent – Descubre eventos confiables en Perú",

@@ -1,11 +1,11 @@
-import { MeeventLogo } from "@/components/ui/MeeventLogo";
+import { MeeventLogo } from "@/shared/components/ui/MeeventLogo";
 import { EarlyAccessForm } from "./EarlyAccessForm";
 import { UserList } from "./UserList";
-import AnimatedRotatingWords from "@/components/ui/AnimatedRotatingWords";
+import AnimatedRotatingWords from "@/shared/components/ui/AnimatedRotatingWords";
 
 export const HeroSection = ({ usersCount }: { usersCount: number }) => {
     return (
-        <section className="to-meevent-primary bg-linear-to-t from-[#AB2037] from-0% to-40% px-3.75 xl:flex xl:w-full xl:flex-col xl:items-center xl:bg-[url('/foto-hero-2_1.png')] xl:bg-cover xl:bg-center xl:bg-no-repeat xl:py-11">
+        <section className="to-meevent-primary bg-linear-to-t from-[#AB2037] from-0% to-40% px-3.75 xl:flex xl:w-full xl:flex-col xl:items-center xl:bg-[url('/ui/foto-hero-2_1.png')] xl:bg-cover xl:bg-center xl:bg-no-repeat xl:py-11">
             <header className="flex items-center justify-between py-4 xl:w-269">
                 <MeeventLogo className="m-auto w-35 text-white xl:m-0" />
             </header>

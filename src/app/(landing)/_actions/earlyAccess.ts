@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/lib/firebaseAdmin";
+import { db } from "@/shared/lib/firebaseAdmin";
 import { FieldValue } from "firebase-admin/firestore";
 import { revalidatePath } from "next/cache";
 
