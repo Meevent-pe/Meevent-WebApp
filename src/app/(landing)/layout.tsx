@@ -5,6 +5,8 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "@/shared/components/ui/sonner";
 import MsClarity from "@/shared/providers/clarity-init";
 import { MSWProvider } from "@/shared/providers/msw-provider";
+import Script from "next/script";
+import { GoogleOAuthProvider } from "@/shared/providers/google-oauth-provider";
 
 const inter = Inter({
     variable: "--font-inter",
@@ -63,10 +65,17 @@ export default function RootLayout({
                 className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} font-inter antialiased`}
             >
                 <MSWProvider>
-                    {children}
-                    <Toaster position="top-center" />
+                    <GoogleOAuthProvider>
+                        {children}
+                        <Toaster position="top-center" />
+                    </GoogleOAuthProvider>
                 </MSWProvider>
             </body>
+            <Script
+                id="google-identity-sdk"
+                src="https://accounts.google.com/gsi/client"
+                strategy="afterInteractive"
+            />
             <GoogleAnalytics gaId="G-9WYFY4774T" />
             <MsClarity />
         </html>
