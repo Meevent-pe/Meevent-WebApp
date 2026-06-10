@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "@/shared/components/ui/sonner";
 import MsClarity from "@/shared/providers/clarity-init";
+import { MSWProvider } from "@/shared/providers/msw-provider";
 
 const inter = Inter({
     variable: "--font-inter",
@@ -61,8 +62,10 @@ export default function RootLayout({
             <body
                 className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} font-inter antialiased`}
             >
-                {children}
-                <Toaster position="top-center" />
+                <MSWProvider>
+                    {children}
+                    <Toaster position="top-center" />
+                </MSWProvider>
             </body>
             <GoogleAnalytics gaId="G-9WYFY4774T" />
             <MsClarity />
