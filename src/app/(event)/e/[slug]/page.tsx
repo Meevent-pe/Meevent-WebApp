@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
-import { getPublicEventBySlug } from "@/features/event/services/get-public-event";
-
 import { Metadata } from "next";
+
+import { getPublicEventBySlug } from "@/features/event";
+import { EventView } from "./_components/event-view";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
@@ -39,9 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 interface Props {
-    params: Promise<{
-        slug: string;
-    }>;
+    params: Promise<{ slug: string }>;
 }
 
 export default async function EventPage({ params }: Props) {
@@ -53,13 +52,5 @@ export default async function EventPage({ params }: Props) {
         notFound();
     }
 
-    return (
-        <main>
-            <h1>{event.title}</h1>
-
-            <p>{event.description}</p>
-
-            <img src={event.bannerUrl} alt={event.title} />
-        </main>
-    );
+    return <EventView event={event} />;
 }
