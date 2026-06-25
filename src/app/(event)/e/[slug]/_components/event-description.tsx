@@ -1,13 +1,31 @@
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/shared/components/ui/accordion";
+import { Info } from "lucide-react";
+
 interface Props {
     description: string;
 }
 
 export function EventDescription({ description }: Props) {
     return (
-        <section className="rounded-3xl border p-8">
-            <h2 className="mb-6 text-2xl font-semibold">About the Event</h2>
-
-            <p className="leading-8 text-gray-700">{description}</p>
+        <section className="rounded-3xl border px-6 py-2">
+            <Accordion type="single" collapsible defaultValue="item-1">
+                <AccordionItem value="item-1">
+                    <AccordionTrigger>
+                        <h2 className="flex items-center text-xl font-semibold">
+                            <Info size={20} />
+                            <span className="ml-2">About the Event</span>
+                        </h2>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        <p className="text-gray-700">{description}</p>
+                    </AccordionContent>
+                </AccordionItem>
+            </Accordion>
         </section>
     );
 }
