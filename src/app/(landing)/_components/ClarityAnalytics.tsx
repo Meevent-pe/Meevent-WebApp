@@ -1,12 +1,13 @@
 "use client";
+
 import Clarity from "@microsoft/clarity";
 import { useEffect } from "react";
 
-export default function MsClarity() {
+export function ClarityAnalytics() {
     useEffect(() => {
         const projectId = process.env.NEXT_PUBLIC_CLARITY_ID;
 
-        if (projectId && typeof window !== "undefined") {
+        if (projectId) {
             Clarity.init(projectId);
         }
     }, []);

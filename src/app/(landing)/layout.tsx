@@ -1,27 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
-import "@/app/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
+
 import { Toaster } from "@/shared/components/ui/sonner";
-import MsClarity from "@/shared/providers/clarity-init";
-import { MSWProvider } from "@/shared/providers/msw-provider";
-import Script from "next/script";
-import { GoogleOAuthProvider } from "@/shared/providers/google-oauth-provider";
-
-const inter = Inter({
-    variable: "--font-inter",
-    subsets: ["latin"],
-});
-
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
+import { ClarityAnalytics } from "./_components/ClarityAnalytics";
 
 export const metadata: Metadata = {
     title: "Meevent – Descubre eventos confiables en Perú",
@@ -50,34 +31,21 @@ export const metadata: Metadata = {
         title: "Meevent – Descubre eventos confiables en Perú",
         description:
             "Encuentra los mejores planes con reseñas reales y un ranking de organizadores que no miente.",
-        images: ["/og-image.png"],
+        images: ["/og/og-image.png"],
     },
 };
 
-export default function RootLayout({
+export default function LandingLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="es">
-            <body
-                className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} font-inter antialiased`}
-            >
-                <MSWProvider>
-                    <GoogleOAuthProvider>
-                        {children}
-                        <Toaster position="top-center" />
-                    </GoogleOAuthProvider>
-                </MSWProvider>
-            </body>
-            <Script
-                id="google-identity-sdk"
-                src="https://accounts.google.com/gsi/client"
-                strategy="afterInteractive"
-            />
+        <>
+            {children}
+            <Toaster position="top-center" />
             <GoogleAnalytics gaId="G-9WYFY4774T" />
-            <MsClarity />
-        </html>
+            <ClarityAnalytics />
+        </>
     );
 }
