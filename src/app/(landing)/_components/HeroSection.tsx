@@ -1,7 +1,7 @@
 import { MeeventLogo } from "@/shared/components/ui/MeeventLogo";
+import AnimatedRotatingWords from "./AnimatedRotatingWords";
 import { EarlyAccessForm } from "./EarlyAccessForm";
 import { UserList } from "./UserList";
-import AnimatedRotatingWords from "@/shared/components/ui/AnimatedRotatingWords";
 
 export const HeroSection = ({ usersCount }: { usersCount: number }) => {
     return (

@@ -1,9 +1,9 @@
-type EarlyAccessButtonProps = {
+interface EarlyAccessButtonProps {
     variant?: "header" | "form";
     type?: "button" | "submit";
     className?: string;
     disabled?: boolean;
-};
+}
 
 export const EarlyAccessButton = ({
     variant = "header",

@@ -2,10 +2,10 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { registerEarlyAccess, FormState } from "@/app/(landing)/_actions/earlyAccess";
-import { EarlyAccessButton } from "@/shared/components/ui/EarlyAccessButton";
 import { Input } from "@/shared/components/ui/input";
 import { toast } from "sonner";
 import { sendGAEvent } from "@next/third-parties/google";
+import { EarlyAccessButton } from "./EarlyAccessButton";
 
 const initialState: FormState = {
     success: false,
@@ -38,7 +38,7 @@ export const EarlyAccessForm = () => {
             console.log("✅ Intento de envío a GA4 ejecutado");
 
             toast.custom(
-                (t) => (
+                () => (
                     <div className="flex w-full items-center justify-center gap-4 rounded-3xl border border-gray-100 bg-white p-4 shadow-2xl xl:max-w-300 xl:px-10">
                         <div className="border-meevent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-4">
                             <svg
