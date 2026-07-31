@@ -1,74 +1,86 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { apiClient } from "@/shared/services/api-client";
-import { useGoogleOAuth } from "@/shared/providers/google-oauth-provider";
+
+import { googleLoginAction } from "@/features/auth/actions/auth.actions";
+import { AuthAlert } from "@/features/auth/components/auth-alert";
+import { useGoogleOAuthReady } from "@/features/auth/components/google-oauth-provider";
+import { publicEnv } from "@/features/auth/config/public-env";
 
 export function GoogleAuthButton() {
     const router = useRouter();
-    const { isGoogleReady } = useGoogleOAuth();
+    const isGoogleReady = useGoogleOAuthReady();
+    const containerRef = useRef<HTMLDivElement>(null);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const GOOGLE_OAUTH_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID;
+    const googleClientId = publicEnv?.googleClientId;
 
     useEffect(() => {
-        if (!isGoogleReady) return;
-        const google = (window as any).google;
-        if (!google || !google.accounts) return;
+        const container = containerRef.current;
+        const google = window.google;
+
+        if (!isGoogleReady || !google || !container || !googleClientId) {
+            return;
+        }
+
+        container.replaceChildren();
 
         google.accounts.id.initialize({
-            client_id: GOOGLE_OAUTH_CLIENT_ID,
-            callback: async (response: any) => {
+            client_id: googleClientId,
+            callback: async ({ credential }) => {
                 setIsLoading(true);
                 setError(null);
 
                 try {
-                    const googleIdToken = response.credential;
+                    const result = await googleLoginAction({ credential });
+                    if (!result.success) {
+                        setError(result.message);
+                        return;
+                    }
 
-                    await apiClient("/auth/google", {
-                        method: "POST",
-                        body: JSON.stringify({ token: googleIdToken }),
-                    });
-                    // router.push("/dashboard");
-                } catch (err: any) {
-                    setError(err.message || "Error al verificar la identidad.");
+                    router.replace("/");
+                    router.refresh();
+                } catch {
+                    setError("No se pudo completar el acceso con Google.");
+                } finally {
                     setIsLoading(false);
                 }
             },
         });
 
-        const container = document.getElementById("google-btn-container");
-        if (container) {
-            google.accounts.id.renderButton(container, {
-                theme: "outline",
-                size: "large",
-                text: "signin_with",
-                locale: "es",
-                width: container.offsetWidth,
-            });
-        }
-    }, [isGoogleReady, router, GOOGLE_OAUTH_CLIENT_ID]);
+        google.accounts.id.renderButton(container, {
+            theme: "outline",
+            size: "large",
+            text: "continue_with",
+            locale: "es",
+            width: Math.max(container.offsetWidth, 280),
+        });
+    }, [googleClientId, isGoogleReady, router]);
 
     return (
-        <div className="flex w-full flex-col items-center justify-center space-y-3">
-            {isLoading && (
-                <p className="animate-pulse text-sm font-medium text-gray-500">
-                    Validando credenciales en Meevent...
-                </p>
-            )}
-
+        <div className="space-y-3">
             <div
-                id="google-btn-container"
-                className={`w-full max-w-sm ${isLoading ? "hidden" : "block"} min-h-[44px]`}
+                ref={containerRef}
+                className="flex min-h-11 w-full justify-center overflow-hidden"
+                aria-busy={isLoading}
             />
 
-            {error && (
-                <p className="w-full rounded-md bg-red-50 p-2 text-center text-sm font-semibold text-red-600">
-                    ⚠️ {error}
+            {isLoading ? (
+                <p className="text-center text-sm text-neutral-500">
+                    Validando tu cuenta de Google...
                 </p>
-            )}
+            ) : null}
+
+            {!googleClientId ? (
+                <AuthAlert
+                    type="error"
+                    message="Google Sign-In no está configurado en este ambiente."
+                />
+            ) : null}
+
+            {error ? <AuthAlert type="error" message={error} /> : null}
         </div>
     );
 }
