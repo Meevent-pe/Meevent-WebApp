@@ -1,3 +1,5 @@
+import "server-only";
+
 import * as admin from "firebase-admin";
 
 function formatPrivateKey(key: string | undefined) {
@@ -8,7 +10,7 @@ function formatPrivateKey(key: string | undefined) {
     return strippedKey.replace(/\\n/g, "\n");
 }
 
-function getFirebaseAdmin() {
+function getFirebaseAdminApp() {
     if (admin.apps.length > 0) {
         return admin.app();
     }
@@ -33,6 +35,6 @@ function getFirebaseAdmin() {
     });
 }
 
-const adminApp = getFirebaseAdmin();
+const adminApp = getFirebaseAdminApp();
 
 export const db: FirebaseFirestore.Firestore | null = adminApp ? adminApp.firestore() : null;

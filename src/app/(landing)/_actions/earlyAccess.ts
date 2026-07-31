@@ -1,8 +1,9 @@
 "use server";
 
-import { db } from "@/shared/lib/firebaseAdmin";
 import { FieldValue } from "firebase-admin/firestore";
 import { revalidatePath } from "next/cache";
+
+import { db } from "@/app/(landing)/_lib/firebase-admin";
 
 export type FormState = {
     success: boolean;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, Transition } from "motion/react";
 
 const springTransition: Transition = {
@@ -21,16 +21,10 @@ export default function AnimatedRotatingWords({
     words = DEFAULT_WORDS,
     intervalMs = 1500,
 }: AnimatedRotatingWordsProps) {
-    const safeWords = useMemo(() => {
-        return Array.isArray(words) && words.length > 0 ? words : DEFAULT_WORDS;
-    }, [words]);
+    const safeWords = words.length > 0 ? words : DEFAULT_WORDS;
 
     const [index, setIndex] = useState(0);
-    const intervalRef = useRef<NodeJS.Timeout | null>(null);
-
-    useEffect(() => {
-        setIndex(0);
-    }, [safeWords]);
+    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     useEffect(() => {
         if (safeWords.length <= 1) return;
@@ -69,7 +63,7 @@ export default function AnimatedRotatingWords({
         };
     }, [safeWords, intervalMs]);
 
-    const currentWord = safeWords[index];
+    const currentWord = safeWords[index % safeWords.length];
 
     return (
         <span className="relative inline-block align-bottom font-black">

@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence, Transition } from "motion/react"; // Importamos el tipo Transition
+import { motion, AnimatePresence, Transition } from "motion/react";
 import { MeeventLogo } from "@/shared/components/ui/MeeventLogo";
-import { EarlyAccessButton } from "@/shared/components/ui/EarlyAccessButton";
+import { EarlyAccessButton } from "./EarlyAccessButton";
 
-// Opción A: Definir el tipo explícitamente para que TS esté contento
 const springTransition: Transition = {
     type: "spring",
     stiffness: 450,
