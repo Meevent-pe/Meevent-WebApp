@@ -8,7 +8,7 @@ import { useGoogleOAuthReady } from "@/features/auth/components/google-oauth-pro
 import { publicEnv } from "@/features/auth/config/public-env";
 import { FormAlert } from "@/shared/components/forms/form-alert";
 
-export function GoogleAuthButton({ redirectTo = "/" }: { redirectTo?: string }) {
+export function GoogleAuthButton({ redirectTo }: { redirectTo?: string }) {
     const router = useRouter();
     const isGoogleReady = useGoogleOAuthReady();
     const containerRef = useRef<HTMLDivElement>(null);
@@ -40,7 +40,7 @@ export function GoogleAuthButton({ redirectTo = "/" }: { redirectTo?: string }) 
                         return;
                     }
 
-                    router.replace(redirectTo);
+                    router.replace(redirectTo ?? result.redirectTo ?? "/");
                     router.refresh();
                 } catch {
                     setError("No se pudo completar el acceso con Google.");

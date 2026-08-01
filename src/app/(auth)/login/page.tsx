@@ -17,7 +17,8 @@ interface LoginPageProps {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
     const { passwordReset, organizerOnboarding, next } = await searchParams;
-    const redirectTo = next === "/organizer/onboarding" ? next : "/";
+    const redirectTo =
+        next === "/organizer/onboarding" || next === "/organizer/dashboard" ? next : undefined;
 
     const initialMessage =
         organizerOnboarding === "success"
