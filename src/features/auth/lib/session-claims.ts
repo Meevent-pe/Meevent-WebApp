@@ -1,7 +1,7 @@
 import { decodeJwt } from "jose";
 import { z } from "zod";
 
-export const userRoleSchema = z.enum(["ATTENDEE", "ORGANIZER", "ADMIN"]);
+export const userRoleSchema = z.enum(["ATTENDEE", "ARTIST", "ORGANIZER"]);
 export const authProviderSchema = z.enum(["LOCAL", "GOOGLE"]);
 
 const jwtClaimsSchema = z.object({
