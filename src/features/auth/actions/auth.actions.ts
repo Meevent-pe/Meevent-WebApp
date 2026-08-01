@@ -1,7 +1,5 @@
 "use server";
 
-import { z } from "zod";
-
 import {
     forgotPasswordSchema,
     googleLoginSchema,
@@ -20,28 +18,13 @@ import {
 import { mapAuthError } from "@/features/auth/mappers/auth-error.mapper";
 import { authApi } from "@/features/auth/server/auth-api.server";
 import { createSession, deleteSession } from "@/features/auth/server/session.server";
-import type { AuthActionResult } from "@/features/auth/types/auth.types";
+import { mapZodValidationError } from "@/shared/lib/map-zod-validation-error";
+import type { ActionResult } from "@/shared/types/action-result.types";
 
-function mapValidationError(error: z.ZodError): AuthActionResult {
-    const fieldErrors = error.issues.reduce<Record<string, string>>((result, issue) => {
-        const field = issue.path[0];
-        if (typeof field === "string" && !result[field]) {
-            result[field] = issue.message;
-        }
-        return result;
-    }, {});
-
-    return {
-        success: false,
-        message: "Revisa los datos ingresados.",
-        fieldErrors,
-    };
-}
-
-export async function loginAction(input: unknown): Promise<AuthActionResult> {
+export async function loginAction(input: unknown): Promise<ActionResult> {
     const parsed = loginSchema.safeParse(input);
     if (!parsed.success) {
-        return mapValidationError(parsed.error);
+        return mapZodValidationError(parsed.error);
     }
 
     try {
@@ -54,10 +37,10 @@ export async function loginAction(input: unknown): Promise<AuthActionResult> {
     }
 }
 
-export async function registerAction(input: unknown): Promise<AuthActionResult> {
+export async function registerAction(input: unknown): Promise<ActionResult> {
     const parsed = registerSchema.safeParse(input);
     if (!parsed.success) {
-        return mapValidationError(parsed.error);
+        return mapZodValidationError(parsed.error);
     }
 
     try {
@@ -68,10 +51,10 @@ export async function registerAction(input: unknown): Promise<AuthActionResult> 
     }
 }
 
-export async function verifyEmailAction(input: unknown): Promise<AuthActionResult> {
+export async function verifyEmailAction(input: unknown): Promise<ActionResult> {
     const parsed = verifyEmailSchema.safeParse(input);
     if (!parsed.success) {
-        return mapValidationError(parsed.error);
+        return mapZodValidationError(parsed.error);
     }
 
     try {
@@ -83,10 +66,10 @@ export async function verifyEmailAction(input: unknown): Promise<AuthActionResul
     }
 }
 
-export async function forgotPasswordAction(input: unknown): Promise<AuthActionResult> {
+export async function forgotPasswordAction(input: unknown): Promise<ActionResult> {
     const parsed = forgotPasswordSchema.safeParse(input);
     if (!parsed.success) {
-        return mapValidationError(parsed.error);
+        return mapZodValidationError(parsed.error);
     }
 
     try {
@@ -97,10 +80,10 @@ export async function forgotPasswordAction(input: unknown): Promise<AuthActionRe
     }
 }
 
-export async function resetPasswordAction(input: unknown): Promise<AuthActionResult> {
+export async function resetPasswordAction(input: unknown): Promise<ActionResult> {
     const parsed = resetPasswordSchema.safeParse(input);
     if (!parsed.success) {
-        return mapValidationError(parsed.error);
+        return mapZodValidationError(parsed.error);
     }
 
     try {
@@ -111,10 +94,10 @@ export async function resetPasswordAction(input: unknown): Promise<AuthActionRes
     }
 }
 
-export async function googleLoginAction(input: unknown): Promise<AuthActionResult> {
+export async function googleLoginAction(input: unknown): Promise<ActionResult> {
     const parsed = googleLoginSchema.safeParse(input);
     if (!parsed.success) {
-        return mapValidationError(parsed.error);
+        return mapZodValidationError(parsed.error);
     }
 
     try {

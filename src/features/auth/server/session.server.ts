@@ -1,34 +1,16 @@
 import "server-only";
 
 import { cookies } from "next/headers";
-import { decodeJwt } from "jose";
-import { z } from "zod";
 
 import { SESSION_COOKIE_NAME } from "@/features/auth/constants/auth-cookies";
-
-const jwtClaimsSchema = z.object({
-    sub: z.email(),
-    role: z.enum(["ATTENDEE", "ORGANIZER", "ADMIN"]),
-    auth_provider: z.enum(["LOCAL", "GOOGLE"]),
-    exp: z.number().int().positive(),
-});
-
-function readClaims(accessToken: string) {
-    const claims = jwtClaimsSchema.parse(decodeJwt(accessToken));
-
-    return {
-        email: claims.sub,
-        role: claims.role,
-        authProvider: claims.auth_provider,
-        expiresAt: claims.exp,
-    };
-}
+import { isSessionExpired, readSessionClaims } from "@/features/auth/lib/session-claims";
+import type { AuthSession } from "@/features/auth/types/auth.types";
 
 export async function createSession(accessToken: string) {
     // El token acaba de llegar directamente de Spring. Los claims se decodifican
     // únicamente para validar su estructura y sincronizar la expiración de la cookie.
     // La autorización real siempre corresponde al backend.
-    const claims = readClaims(accessToken);
+    const claims = readSessionClaims(accessToken);
     const cookieStore = await cookies();
 
     cookieStore.set(SESSION_COOKIE_NAME, accessToken, {
@@ -46,6 +28,27 @@ export async function createSession(accessToken: string) {
 export async function getSessionToken() {
     const cookieStore = await cookies();
     return cookieStore.get(SESSION_COOKIE_NAME)?.value ?? null;
+}
+
+export async function getSession(): Promise<AuthSession | null> {
+    const accessToken = await getSessionToken();
+    if (!accessToken) {
+        return null;
+    }
+
+    try {
+        const claims = readSessionClaims(accessToken);
+        if (isSessionExpired(claims)) {
+            return null;
+        }
+
+        return {
+            accessToken,
+            ...claims,
+        };
+    } catch {
+        return null;
+    }
 }
 
 export async function deleteSession() {

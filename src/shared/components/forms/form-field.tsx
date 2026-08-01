@@ -5,14 +5,18 @@ interface FormFieldProps {
     label: string;
     error?: string;
     hint?: string;
+    optional?: boolean;
     children: ReactNode;
 }
 
-export function FormField({ id, label, error, hint, children }: FormFieldProps) {
+export function FormField({ id, label, error, hint, optional, children }: FormFieldProps) {
     return (
         <div className="space-y-1.5">
             <label htmlFor={id} className="text-sm font-medium text-neutral-800">
                 {label}
+                {optional ? (
+                    <span className="font-normal text-neutral-500"> (opcional)</span>
+                ) : null}
             </label>
             {children}
             {error ? (

@@ -1,5 +1,5 @@
 import { BackendApiError } from "@/shared/services/backend-client.server";
-import type { AuthActionResult } from "@/features/auth/types/auth.types";
+import type { ActionResult } from "@/shared/types/action-result.types";
 
 const API_TO_FORM_FIELD: Record<string, string> = {
     full_name: "fullName",
@@ -15,7 +15,7 @@ const API_TO_FORM_FIELD: Record<string, string> = {
     newPassword: "password",
 };
 
-export function mapAuthError(error: unknown, fallbackMessage: string): AuthActionResult {
+export function mapAuthError(error: unknown, fallbackMessage: string): ActionResult {
     if (!(error instanceof BackendApiError)) {
         return {
             success: false,
@@ -41,5 +41,6 @@ export function mapAuthError(error: unknown, fallbackMessage: string): AuthActio
         success: false,
         message,
         ...(fieldErrors && Object.keys(fieldErrors).length > 0 ? { fieldErrors } : {}),
+        ...(error.payload.traceId ? { traceId: error.payload.traceId } : {}),
     };
 }

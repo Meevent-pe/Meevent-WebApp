@@ -3,10 +3,10 @@ import "server-only";
 import {
     authMessageResponseSchema,
     authResponseDtoSchema,
+    type AuthResponseDto,
 } from "@/features/auth/schemas/auth-api.schemas";
 import { backendRequest } from "@/shared/services/backend-client.server";
 import type {
-    AuthResponseDto,
     ForgotPasswordRequestDto,
     GoogleLoginRequestDto,
     LoginRequestDto,

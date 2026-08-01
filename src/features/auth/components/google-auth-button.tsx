@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { googleLoginAction } from "@/features/auth/actions/auth.actions";
-import { AuthAlert } from "@/features/auth/components/auth-alert";
 import { useGoogleOAuthReady } from "@/features/auth/components/google-oauth-provider";
 import { publicEnv } from "@/features/auth/config/public-env";
+import { FormAlert } from "@/shared/components/forms/form-alert";
 
-export function GoogleAuthButton() {
+export function GoogleAuthButton({ redirectTo = "/" }: { redirectTo?: string }) {
     const router = useRouter();
     const isGoogleReady = useGoogleOAuthReady();
     const containerRef = useRef<HTMLDivElement>(null);
@@ -40,7 +40,7 @@ export function GoogleAuthButton() {
                         return;
                     }
 
-                    router.replace("/");
+                    router.replace(redirectTo);
                     router.refresh();
                 } catch {
                     setError("No se pudo completar el acceso con Google.");
@@ -57,7 +57,7 @@ export function GoogleAuthButton() {
             locale: "es",
             width: Math.max(container.offsetWidth, 280),
         });
-    }, [googleClientId, isGoogleReady, router]);
+    }, [googleClientId, isGoogleReady, redirectTo, router]);
 
     return (
         <div className="space-y-3">
@@ -74,13 +74,13 @@ export function GoogleAuthButton() {
             ) : null}
 
             {!googleClientId ? (
-                <AuthAlert
+                <FormAlert
                     type="error"
                     message="Google Sign-In no está configurado en este ambiente."
                 />
             ) : null}
 
-            {error ? <AuthAlert type="error" message={error} /> : null}
+            {error ? <FormAlert type="error" message={error} /> : null}
         </div>
     );
 }
