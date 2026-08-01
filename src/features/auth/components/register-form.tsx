@@ -6,20 +6,20 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { registerAction } from "@/features/auth/actions/auth.actions";
-import { AuthAlert } from "@/features/auth/components/auth-alert";
-import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
-import { FormField } from "@/features/auth/components/form-field";
 import { GoogleAuthButton } from "@/features/auth/components/google-auth-button";
 import { PasswordInput } from "@/features/auth/components/password-input";
 import { PERU_DEPARTMENTS } from "@/features/auth/constants/peru-departments";
-import { applyActionFieldErrors } from "@/features/auth/lib/apply-action-errors";
 import { registerSchema, type RegisterFormValues } from "@/features/auth/schemas/auth.schemas";
-import type { AuthActionResult } from "@/features/auth/types/auth.types";
+import { FormAlert } from "@/shared/components/forms/form-alert";
+import { FormField } from "@/shared/components/forms/form-field";
+import { SubmitButton } from "@/shared/components/forms/submit-button";
 import { Input } from "@/shared/components/ui/input";
+import { applyActionFieldErrors } from "@/shared/lib/apply-action-field-errors";
 import { cn } from "@/shared/lib/utils";
+import type { ActionResult } from "@/shared/types/action-result.types";
 
 export function RegisterForm() {
-    const [result, setResult] = useState<AuthActionResult | null>(null);
+    const [result, setResult] = useState<ActionResult | null>(null);
     const {
         register,
         handleSubmit,
@@ -51,7 +51,7 @@ export function RegisterForm() {
     if (result?.success) {
         return (
             <div className="space-y-5 text-center">
-                <AuthAlert type="success" message={result.message} />
+                <FormAlert type="success" message={result.message} />
                 <p className="text-sm leading-6 text-neutral-600">
                     Abre el enlace que enviamos a tu correo para verificar tu cuenta. El enlace
                     tiene una vigencia limitada; revisa también la carpeta de spam.
@@ -197,13 +197,14 @@ export function RegisterForm() {
                 </div>
 
                 {result ? (
-                    <AuthAlert
+                    <FormAlert
                         type={result.success ? "success" : "error"}
                         message={result.message}
+                        traceId={result.traceId}
                     />
                 ) : null}
 
-                <AuthSubmitButton pending={isSubmitting}>Crear cuenta</AuthSubmitButton>
+                <SubmitButton pending={isSubmitting}>Crear cuenta</SubmitButton>
             </form>
 
             <div className="flex items-center gap-3 text-xs text-neutral-400">

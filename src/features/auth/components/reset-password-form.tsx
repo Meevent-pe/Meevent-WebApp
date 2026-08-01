@@ -7,20 +7,20 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { resetPasswordAction } from "@/features/auth/actions/auth.actions";
-import { AuthAlert } from "@/features/auth/components/auth-alert";
-import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
-import { FormField } from "@/features/auth/components/form-field";
 import { PasswordInput } from "@/features/auth/components/password-input";
-import { applyActionFieldErrors } from "@/features/auth/lib/apply-action-errors";
 import {
     resetPasswordSchema,
     type ResetPasswordFormValues,
 } from "@/features/auth/schemas/auth.schemas";
-import type { AuthActionResult } from "@/features/auth/types/auth.types";
+import { FormAlert } from "@/shared/components/forms/form-alert";
+import { FormField } from "@/shared/components/forms/form-field";
+import { SubmitButton } from "@/shared/components/forms/submit-button";
+import { applyActionFieldErrors } from "@/shared/lib/apply-action-field-errors";
+import type { ActionResult } from "@/shared/types/action-result.types";
 
 export function ResetPasswordForm({ token }: { token?: string }) {
     const router = useRouter();
-    const [result, setResult] = useState<AuthActionResult | null>(null);
+    const [result, setResult] = useState<ActionResult | null>(null);
     const {
         register,
         handleSubmit,
@@ -38,7 +38,7 @@ export function ResetPasswordForm({ token }: { token?: string }) {
     if (!token) {
         return (
             <div className="space-y-5">
-                <AuthAlert type="error" message="El enlace no contiene un token de recuperación." />
+                <FormAlert type="error" message="El enlace no contiene un token de recuperación." />
                 <p className="text-center text-sm">
                     <Link
                         href="/forgot-password"
@@ -100,10 +100,14 @@ export function ResetPasswordForm({ token }: { token?: string }) {
             </FormField>
 
             {result ? (
-                <AuthAlert type={result.success ? "success" : "error"} message={result.message} />
+                <FormAlert
+                    type={result.success ? "success" : "error"}
+                    message={result.message}
+                    traceId={result.traceId}
+                />
             ) : null}
 
-            <AuthSubmitButton pending={isSubmitting}>Guardar contraseña</AuthSubmitButton>
+            <SubmitButton pending={isSubmitting}>Guardar contraseña</SubmitButton>
         </form>
     );
 }

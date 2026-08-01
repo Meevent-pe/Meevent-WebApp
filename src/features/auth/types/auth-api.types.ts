@@ -1,7 +1,3 @@
-export interface AuthResponseDto {
-    accessToken: string;
-}
-
 export interface LoginRequestDto {
     email: string;
     password: string;

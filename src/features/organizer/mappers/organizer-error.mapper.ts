@@ -2,31 +2,23 @@ import { BackendApiError } from "@/shared/services/backend-client.server";
 import type { ActionResult } from "@/shared/types/action-result.types";
 
 const API_TO_FORM_FIELD: Record<string, string> = {
-    full_name: "fullName",
-    fullName: "fullName",
-    birth_date: "birthDate",
-    birthDate: "birthDate",
-    city_id: "cityId",
-    cityId: "cityId",
-    country_code: "phoneNumber",
-    countryCode: "phoneNumber",
-    phone_number: "phoneNumber",
-    phoneNumber: "phoneNumber",
-    newPassword: "password",
+    legal_name: "legalName",
+    legalName: "legalName",
+    display_name: "displayName",
+    displayName: "displayName",
+    contact_phone: "contactPhone",
+    contactPhone: "contactPhone",
+    ruc: "ruc",
+    bio: "bio",
 };
 
-export function mapAuthError(error: unknown, fallbackMessage: string): ActionResult {
+export function mapOrganizerError(error: unknown, fallbackMessage: string): ActionResult {
     if (!(error instanceof BackendApiError)) {
         return {
             success: false,
             message: fallbackMessage,
         };
     }
-
-    const message =
-        error.payload.code === "UNAUTHORIZED"
-            ? "Las credenciales no son válidas o la cuenta aún no está verificada."
-            : error.payload.message;
 
     const fieldErrors = error.payload.fieldErrors?.reduce<Record<string, string>>(
         (result, fieldError) => {
@@ -36,6 +28,11 @@ export function mapAuthError(error: unknown, fallbackMessage: string): ActionRes
         },
         {}
     );
+
+    const message =
+        error.payload.code === "ACCESS_DENIED"
+            ? "Tu sesión no tiene permisos para completar este onboarding."
+            : error.payload.message;
 
     return {
         success: false,

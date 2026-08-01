@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { verifyEmailAction } from "@/features/auth/actions/auth.actions";
-import { AuthAlert } from "@/features/auth/components/auth-alert";
+import { FormAlert } from "@/shared/components/forms/form-alert";
 import { Button } from "@/shared/components/ui/button";
 
 type VerificationState =
@@ -68,7 +68,7 @@ export function VerifyEmailView({ token }: VerifyEmailViewProps) {
     if (state.status === "error") {
         return (
             <div className="space-y-5 text-center">
-                <AuthAlert type="error" message={state.message} />
+                <FormAlert type="error" message={state.message} />
                 <Link href="/register" className="text-meevent-primary font-medium hover:underline">
                     Volver al registro
                 </Link>
@@ -78,7 +78,7 @@ export function VerifyEmailView({ token }: VerifyEmailViewProps) {
 
     return (
         <div className="space-y-5 text-center">
-            <AuthAlert type="success" message={state.message} />
+            <FormAlert type="success" message={state.message} />
             <p className="text-sm leading-6 text-neutral-600">
                 Tu sesión se inició automáticamente. Ya puedes continuar en Meevent.
             </p>

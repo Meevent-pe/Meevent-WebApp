@@ -2,12 +2,13 @@ import { CircleCheck, CircleX } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 
-interface AuthAlertProps {
+interface FormAlertProps {
     type: "error" | "success";
     message: string;
+    traceId?: string;
 }
 
-export function AuthAlert({ type, message }: AuthAlertProps) {
+export function FormAlert({ type, message, traceId }: FormAlertProps) {
     const Icon = type === "success" ? CircleCheck : CircleX;
 
     return (
@@ -21,7 +22,10 @@ export function AuthAlert({ type, message }: AuthAlertProps) {
             )}
         >
             <Icon className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-            <span>{message}</span>
+            <div>
+                <p>{message}</p>
+                {traceId ? <p className="mt-1 text-xs">Código de seguimiento: {traceId}</p> : null}
+            </div>
         </div>
     );
 }

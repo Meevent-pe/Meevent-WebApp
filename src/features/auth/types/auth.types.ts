@@ -1,8 +1,7 @@
-export type UserRole = "ATTENDEE" | "ORGANIZER" | "ADMIN";
-export type AuthProvider = "LOCAL" | "GOOGLE";
+import type { SessionClaims } from "@/features/auth/lib/session-claims";
 
-export interface AuthActionResult {
-    success: boolean;
-    message: string;
-    fieldErrors?: Record<string, string>;
+export type { AuthProvider, UserRole } from "@/features/auth/lib/session-claims";
+
+export interface AuthSession extends SessionClaims {
+    accessToken: string;
 }

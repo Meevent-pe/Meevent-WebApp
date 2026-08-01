@@ -6,19 +6,19 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { forgotPasswordAction } from "@/features/auth/actions/auth.actions";
-import { AuthAlert } from "@/features/auth/components/auth-alert";
-import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
-import { FormField } from "@/features/auth/components/form-field";
-import { applyActionFieldErrors } from "@/features/auth/lib/apply-action-errors";
 import {
     forgotPasswordSchema,
     type ForgotPasswordFormValues,
 } from "@/features/auth/schemas/auth.schemas";
-import type { AuthActionResult } from "@/features/auth/types/auth.types";
+import { FormAlert } from "@/shared/components/forms/form-alert";
+import { FormField } from "@/shared/components/forms/form-field";
+import { SubmitButton } from "@/shared/components/forms/submit-button";
 import { Input } from "@/shared/components/ui/input";
+import { applyActionFieldErrors } from "@/shared/lib/apply-action-field-errors";
+import type { ActionResult } from "@/shared/types/action-result.types";
 
 export function ForgotPasswordForm() {
-    const [result, setResult] = useState<AuthActionResult | null>(null);
+    const [result, setResult] = useState<ActionResult | null>(null);
     const {
         register,
         handleSubmit,
@@ -54,10 +54,14 @@ export function ForgotPasswordForm() {
             </FormField>
 
             {result ? (
-                <AuthAlert type={result.success ? "success" : "error"} message={result.message} />
+                <FormAlert
+                    type={result.success ? "success" : "error"}
+                    message={result.message}
+                    traceId={result.traceId}
+                />
             ) : null}
 
-            <AuthSubmitButton pending={isSubmitting}>Enviar enlace</AuthSubmitButton>
+            <SubmitButton pending={isSubmitting}>Enviar enlace</SubmitButton>
 
             <p className="text-center text-sm">
                 <Link href="/login" className="text-meevent-primary font-medium hover:underline">

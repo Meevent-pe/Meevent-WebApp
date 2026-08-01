@@ -7,19 +7,24 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { loginAction } from "@/features/auth/actions/auth.actions";
-import { AuthAlert } from "@/features/auth/components/auth-alert";
-import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
-import { FormField } from "@/features/auth/components/form-field";
 import { GoogleAuthButton } from "@/features/auth/components/google-auth-button";
 import { PasswordInput } from "@/features/auth/components/password-input";
-import { applyActionFieldErrors } from "@/features/auth/lib/apply-action-errors";
 import { loginSchema, type LoginFormValues } from "@/features/auth/schemas/auth.schemas";
-import type { AuthActionResult } from "@/features/auth/types/auth.types";
+import { FormAlert } from "@/shared/components/forms/form-alert";
+import { FormField } from "@/shared/components/forms/form-field";
+import { SubmitButton } from "@/shared/components/forms/submit-button";
 import { Input } from "@/shared/components/ui/input";
+import { applyActionFieldErrors } from "@/shared/lib/apply-action-field-errors";
+import type { ActionResult } from "@/shared/types/action-result.types";
 
-export function LoginForm({ initialMessage }: { initialMessage?: string }) {
+interface LoginFormProps {
+    initialMessage?: string;
+    redirectTo?: string;
+}
+
+export function LoginForm({ initialMessage, redirectTo = "/" }: LoginFormProps) {
     const router = useRouter();
-    const [result, setResult] = useState<AuthActionResult | null>(
+    const [result, setResult] = useState<ActionResult | null>(
         initialMessage ? { success: true, message: initialMessage } : null
     );
     const {
@@ -45,7 +50,7 @@ export function LoginForm({ initialMessage }: { initialMessage?: string }) {
             return;
         }
 
-        router.replace("/");
+        router.replace(redirectTo);
         router.refresh();
     });
 
@@ -84,13 +89,14 @@ export function LoginForm({ initialMessage }: { initialMessage?: string }) {
                 </div>
 
                 {result ? (
-                    <AuthAlert
+                    <FormAlert
                         type={result.success ? "success" : "error"}
                         message={result.message}
+                        traceId={result.traceId}
                     />
                 ) : null}
 
-                <AuthSubmitButton pending={isSubmitting}>Iniciar sesión</AuthSubmitButton>
+                <SubmitButton pending={isSubmitting}>Iniciar sesión</SubmitButton>
             </form>
 
             <div className="flex items-center gap-3 text-xs text-neutral-400">
@@ -99,7 +105,7 @@ export function LoginForm({ initialMessage }: { initialMessage?: string }) {
                 <span className="h-px flex-1 bg-neutral-200" />
             </div>
 
-            <GoogleAuthButton />
+            <GoogleAuthButton redirectTo={redirectTo} />
 
             <p className="text-center text-sm text-neutral-600">
                 ¿Aún no tienes una cuenta?{" "}

@@ -8,21 +8,27 @@ export const metadata: Metadata = {
 };
 
 interface LoginPageProps {
-    searchParams: Promise<{ passwordReset?: string }>;
+    searchParams: Promise<{
+        passwordReset?: string;
+        organizerOnboarding?: string;
+        next?: string;
+    }>;
 }
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-    const { passwordReset } = await searchParams;
+    const { passwordReset, organizerOnboarding, next } = await searchParams;
+    const redirectTo = next === "/organizer/onboarding" ? next : "/";
+
+    const initialMessage =
+        organizerOnboarding === "success"
+            ? "Tu perfil de organizador fue creado. Inicia sesión nuevamente para continuar."
+            : passwordReset === "success"
+              ? "Tu contraseña fue actualizada. Ya puedes iniciar sesión."
+              : undefined;
 
     return (
         <AuthCard title="Inicia sesión" description="Accede a tu cuenta para continuar en Meevent.">
-            <LoginForm
-                initialMessage={
-                    passwordReset === "success"
-                        ? "Tu contraseña fue actualizada. Ya puedes iniciar sesión."
-                        : undefined
-                }
-            />
+            <LoginForm initialMessage={initialMessage} redirectTo={redirectTo} />
         </AuthCard>
     );
 }

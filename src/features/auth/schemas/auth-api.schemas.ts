@@ -5,3 +5,5 @@ export const authResponseDtoSchema = z.object({
 });
 
 export const authMessageResponseSchema = z.string().min(1);
+
+export type AuthResponseDto = z.infer<typeof authResponseDtoSchema>;
