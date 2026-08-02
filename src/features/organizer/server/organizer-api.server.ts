@@ -8,6 +8,16 @@ import type { OnboardOrganizerRequestDto } from "@/features/organizer/types/orga
 import { backendRequest } from "@/shared/services/backend-client.server";
 
 export const organizerApi = {
+    async getCurrent(accessToken: string) {
+        const response = await backendRequest<unknown>("/organizer/me", {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        return organizerProfileDtoSchema.parse(response) satisfies OrganizerProfileDto;
+    },
+
     async onboard(payload: OnboardOrganizerRequestDto, accessToken: string) {
         const response = await backendRequest<unknown>("/organizer/onboard", {
             method: "POST",
