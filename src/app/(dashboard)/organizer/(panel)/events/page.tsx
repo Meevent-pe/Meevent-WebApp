@@ -1,4 +1,4 @@
-import { CalendarDays, MapPin, Plus, UsersRound } from "lucide-react";
+import { CalendarDays, MapPin, Plus, Settings, UsersRound } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,6 +30,26 @@ const STATUS_STYLES: Record<EventStatus, string> = {
     CLOSED: "bg-neutral-100 text-neutral-700",
 };
 
+const STATUS_FILTERS: Array<{ label: string; value?: EventStatus }> = [
+    { label: "Todos" },
+    { label: "Borradores", value: "DRAFT" },
+    { label: "Publicados", value: "PUBLISHED" },
+    { label: "Cancelados", value: "CANCELLED" },
+    { label: "Cerrados", value: "CLOSED" },
+];
+
+function parseEventStatus(value: string | undefined): EventStatus | undefined {
+    return STATUS_FILTERS.find((filter) => filter.value === value)?.value;
+}
+
+function eventsHref(page: number, status?: EventStatus) {
+    const params = new URLSearchParams();
+    if (page > 1) params.set("page", String(page));
+    if (status) params.set("status", status);
+    const query = params.toString();
+    return `/organizer/events${query ? `?${query}` : ""}`;
+}
+
 function formatEventDate(value: string) {
     return new Intl.DateTimeFormat("es-PE", {
         dateStyle: "medium",
@@ -39,7 +59,7 @@ function formatEventDate(value: string) {
 }
 
 interface OrganizerEventsPageProps {
-    searchParams: Promise<{ created?: string; page?: string }>;
+    searchParams: Promise<{ created?: string; page?: string; status?: string }>;
 }
 
 export default async function OrganizerEventsPage({ searchParams }: OrganizerEventsPageProps) {
@@ -51,11 +71,12 @@ export default async function OrganizerEventsPage({ searchParams }: OrganizerEve
     const params = await searchParams;
     const requestedPage = Number.parseInt(params.page ?? "1", 10);
     const page = Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage - 1 : 0;
+    const status = parseEventStatus(params.status);
     let eventPage = null;
     let loadError = "";
 
     try {
-        eventPage = await eventApi.list(session.accessToken, page, 12);
+        eventPage = await eventApi.list(session.accessToken, page, 12, status);
     } catch {
         loadError = "No se pudieron cargar tus eventos. Inténtalo nuevamente.";
     }
@@ -90,6 +111,30 @@ export default async function OrganizerEventsPage({ searchParams }: OrganizerEve
 
             {loadError ? <FormAlert type="error" message={loadError} /> : null}
 
+            <nav
+                className="flex gap-2 overflow-x-auto pb-1"
+                aria-label="Filtrar eventos por estado"
+            >
+                {STATUS_FILTERS.map((filter) => {
+                    const active = filter.value === status || (!filter.value && !status);
+                    return (
+                        <Link
+                            key={filter.label}
+                            href={eventsHref(1, filter.value)}
+                            aria-current={active ? "page" : undefined}
+                            className={cn(
+                                "shrink-0 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+                                active
+                                    ? "border-meevent-primary bg-meevent-primary text-white"
+                                    : "border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50"
+                            )}
+                        >
+                            {filter.label}
+                        </Link>
+                    );
+                })}
+            </nav>
+
             {eventPage && eventPage.content.length > 0 ? (
                 <>
                     <section className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
@@ -116,7 +161,12 @@ export default async function OrganizerEventsPage({ searchParams }: OrganizerEve
                                 <div className="space-y-3 p-4">
                                     <div className="flex items-start justify-between gap-3">
                                         <h2 className="line-clamp-2 font-semibold text-neutral-950">
-                                            {event.title}
+                                            <Link
+                                                href={`/organizer/events/${event.id}`}
+                                                className="hover:text-meevent-primary"
+                                            >
+                                                {event.title}
+                                            </Link>
                                         </h2>
                                         <span
                                             className={cn(
@@ -153,6 +203,16 @@ export default async function OrganizerEventsPage({ searchParams }: OrganizerEve
                                             </p>
                                         ) : null}
                                     </div>
+                                    <Link
+                                        href={`/organizer/events/${event.id}`}
+                                        className={cn(
+                                            buttonVariants({ variant: "outline", size: "sm" }),
+                                            "w-full"
+                                        )}
+                                    >
+                                        <Settings className="size-4" aria-hidden="true" />
+                                        Administrar evento
+                                    </Link>
                                 </div>
                             </article>
                         ))}
@@ -161,7 +221,7 @@ export default async function OrganizerEventsPage({ searchParams }: OrganizerEve
                     {eventPage.totalPages > 1 ? (
                         <nav className="flex items-center justify-between" aria-label="Paginación">
                             <Link
-                                href={`/organizer/events?page=${Math.max(1, eventPage.number)}`}
+                                href={eventsHref(Math.max(1, eventPage.number), status)}
                                 aria-disabled={eventPage.first}
                                 className={cn(
                                     buttonVariants({ variant: "outline" }),
@@ -174,7 +234,7 @@ export default async function OrganizerEventsPage({ searchParams }: OrganizerEve
                                 Página {eventPage.number + 1} de {eventPage.totalPages}
                             </span>
                             <Link
-                                href={`/organizer/events?page=${eventPage.number + 2}`}
+                                href={eventsHref(eventPage.number + 2, status)}
                                 aria-disabled={eventPage.last}
                                 className={cn(
                                     buttonVariants({ variant: "outline" }),
@@ -191,14 +251,23 @@ export default async function OrganizerEventsPage({ searchParams }: OrganizerEve
                     <div className="mx-auto flex size-11 items-center justify-center rounded-full bg-neutral-100 text-neutral-600">
                         <CalendarDays className="size-5" aria-hidden="true" />
                     </div>
-                    <h2 className="mt-4 font-semibold text-neutral-950">Aún no tienes eventos</h2>
+                    <h2 className="mt-4 font-semibold text-neutral-950">
+                        {status ? "No hay eventos con este estado" : "Aún no tienes eventos"}
+                    </h2>
                     <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-neutral-600">
-                        Crea tu primer evento. Se guardará como borrador y podrás completar su
-                        configuración antes de publicarlo.
+                        {status
+                            ? "Prueba otro filtro o revisa nuevamente cuando tengas eventos en este estado."
+                            : "Crea tu primer evento. Se guardará como borrador y podrás completar su configuración antes de publicarlo."}
                     </p>
-                    <Link href="/organizer/events/new" className={cn(buttonVariants(), "mt-5")}>
-                        Crear mi primer evento
-                    </Link>
+                    {status ? (
+                        <Link href="/organizer/events" className={cn(buttonVariants(), "mt-5")}>
+                            Ver todos
+                        </Link>
+                    ) : (
+                        <Link href="/organizer/events/new" className={cn(buttonVariants(), "mt-5")}>
+                            Crear mi primer evento
+                        </Link>
+                    )}
                 </section>
             ) : null}
         </div>
