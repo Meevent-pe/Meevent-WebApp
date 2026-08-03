@@ -33,6 +33,7 @@ export interface EventLocationValue {
 interface EventLocationPickerProps {
     value: EventLocationValue;
     errors?: Partial<Record<keyof EventLocationValue, string>>;
+    disabled?: boolean;
     onChange(value: EventLocationValue): void;
 }
 
@@ -51,7 +52,12 @@ function getDepartmentName(components: GoogleAddressComponent[] | undefined) {
     return component?.longText ?? component?.long_name;
 }
 
-export function EventLocationPicker({ value, errors, onChange }: EventLocationPickerProps) {
+export function EventLocationPicker({
+    value,
+    errors,
+    disabled = false,
+    onChange,
+}: EventLocationPickerProps) {
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "";
     const mapId = process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID ?? "";
     const mapsConfigured = Boolean(apiKey && mapId);
@@ -154,7 +160,7 @@ export function EventLocationPicker({ value, errors, onChange }: EventLocationPi
                 const marker = new AdvancedMarkerElement({
                     map,
                     position: initialPosition,
-                    gmpDraggable: true,
+                    gmpDraggable: !disabled,
                     title: "Ubicación del evento",
                 });
                 const geocoder = new Geocoder();
@@ -166,6 +172,7 @@ export function EventLocationPicker({ value, errors, onChange }: EventLocationPi
                 autocomplete.locationBias = { radius: 50_000, center: DEFAULT_MAP_CENTER };
                 autocomplete.placeholder = "Buscar un lugar, recinto o dirección";
                 autocomplete.className = "block w-full";
+                if (disabled) autocomplete.setAttribute("disabled", "");
                 autocompleteHost.replaceChildren(autocomplete);
 
                 mapRef.current = map;
@@ -173,6 +180,7 @@ export function EventLocationPicker({ value, errors, onChange }: EventLocationPi
                 geocoderRef.current = geocoder;
 
                 const placeHandler = async (rawEvent: Event) => {
+                    if (disabled) return;
                     const event = rawEvent as GooglePlaceSelectEvent;
                     const place = event.placePrediction.toPlace();
                     await place.fetchFields({
@@ -223,7 +231,7 @@ export function EventLocationPicker({ value, errors, onChange }: EventLocationPi
                     autocomplete.removeEventListener("gmp-select", placeHandler);
                 listeners.push(
                     map.addListener("click", (event) => {
-                        if (!event.latLng) {
+                        if (disabled || !event.latLng) {
                             return;
                         }
                         const coordinates = toCoordinates(event.latLng);
@@ -233,7 +241,7 @@ export function EventLocationPicker({ value, errors, onChange }: EventLocationPi
                 );
                 listeners.push(
                     marker.addListener("dragend", () => {
-                        if (!marker.position) {
+                        if (disabled || !marker.position) {
                             return;
                         }
                         void updateFromCoordinates(toCoordinates(marker.position));
@@ -260,7 +268,7 @@ export function EventLocationPicker({ value, errors, onChange }: EventLocationPi
             mapRef.current = null;
             geocoderRef.current = null;
         };
-    }, [apiKey, mapId, mapsConfigured, onChange]);
+    }, [apiKey, disabled, mapId, mapsConfigured, onChange]);
 
     return (
         <div className="space-y-4">
@@ -307,6 +315,7 @@ export function EventLocationPicker({ value, errors, onChange }: EventLocationPi
                         onChange={(event) => onChange({ ...value, venueName: event.target.value })}
                         placeholder="Ej. Estadio Nacional"
                         aria-invalid={!!errors?.venueName}
+                        disabled={disabled}
                     />
                 </FormField>
 
@@ -323,6 +332,7 @@ export function EventLocationPicker({ value, errors, onChange }: EventLocationPi
                             errors?.cityId && "border-destructive"
                         )}
                         aria-invalid={!!errors?.cityId}
+                        disabled={disabled}
                     >
                         {PERU_DEPARTMENTS.map((department) => (
                             <option key={department.id} value={department.id}>
@@ -343,6 +353,7 @@ export function EventLocationPicker({ value, errors, onChange }: EventLocationPi
                             }
                             placeholder="Dirección proporcionada por Google Maps"
                             aria-invalid={!!errors?.address}
+                            disabled={disabled}
                         />
                     </FormField>
                 </div>

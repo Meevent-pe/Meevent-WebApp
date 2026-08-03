@@ -10,6 +10,7 @@ import { cn } from "@/shared/lib/utils";
 
 interface EventBannerFieldProps {
     file: File | null;
+    currentUrl?: string | null;
     error?: string;
     disabled?: boolean;
     onChange(file: File | null): void;
@@ -18,6 +19,7 @@ interface EventBannerFieldProps {
 
 export function EventBannerField({
     file,
+    currentUrl,
     error,
     disabled,
     onChange,
@@ -93,28 +95,42 @@ export function EventBannerField({
                     error ? "border-red-400" : "border-neutral-300"
                 )}
             >
-                {previewUrl ? (
+                {previewUrl || currentUrl ? (
                     <>
                         <Image
-                            src={previewUrl}
+                            src={previewUrl ?? currentUrl ?? ""}
                             alt="Vista previa del banner"
                             fill
                             unoptimized
                             className="object-cover"
                         />
                         <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-black/65 px-3 py-2 text-xs text-white">
-                            <span className="truncate">{file?.name}</span>
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
-                                className="h-8 shrink-0 text-white hover:bg-white/15 hover:text-white"
-                                onClick={clearFile}
-                                disabled={disabled}
-                            >
-                                <X className="size-4" aria-hidden="true" />
-                                Quitar
-                            </Button>
+                            <span className="truncate">{file?.name ?? "Banner actual"}</span>
+                            {file ? (
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 shrink-0 text-white hover:bg-white/15 hover:text-white"
+                                    onClick={clearFile}
+                                    disabled={disabled}
+                                >
+                                    <X className="size-4" aria-hidden="true" />
+                                    Quitar
+                                </Button>
+                            ) : (
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 shrink-0 text-white hover:bg-white/15 hover:text-white"
+                                    onClick={() => inputRef.current?.click()}
+                                    disabled={disabled || checking}
+                                >
+                                    <UploadCloud className="size-4" aria-hidden="true" />
+                                    Cambiar
+                                </Button>
+                            )}
                         </div>
                     </>
                 ) : (
