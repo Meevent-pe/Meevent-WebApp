@@ -38,7 +38,7 @@ export function mapEventError(error: unknown, fallbackMessage: string): ActionRe
         success: false,
         message:
             error.payload.code === "ACCESS_DENIED"
-                ? "Tu sesión no tiene permisos para crear eventos."
+                ? "Tu sesión no tiene permisos para gestionar eventos."
                 : error.payload.message,
         ...(fieldErrors && Object.keys(fieldErrors).length > 0 ? { fieldErrors } : {}),
         ...(error.payload.traceId ? { traceId: error.payload.traceId } : {}),
