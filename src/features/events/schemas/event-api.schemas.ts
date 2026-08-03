@@ -20,15 +20,22 @@ export const eventResponseDtoSchema = z.object({
     maxAttendees: z.number().int().positive().nullable(),
 });
 
-export const eventPageDtoSchema = z.object({
-    content: z.array(eventResponseDtoSchema),
-    totalElements: z.number().int().nonnegative(),
-    totalPages: z.number().int().nonnegative(),
-    number: z.number().int().nonnegative(),
-    size: z.number().int().nonnegative(),
-    first: z.boolean(),
-    last: z.boolean(),
-});
+export const eventPageDtoSchema = z
+    .object({
+        content: z.array(eventResponseDtoSchema),
+        page: z.object({
+            size: z.number().int().nonnegative(),
+            number: z.number().int().nonnegative(),
+            totalElements: z.number().int().nonnegative(),
+            totalPages: z.number().int().nonnegative(),
+        }),
+    })
+    .transform(({ content, page }) => ({
+        content,
+        ...page,
+        first: page.number === 0,
+        last: page.totalPages === 0 || page.number >= page.totalPages - 1,
+    }));
 
 export const cloudinaryUploadResponseSchema = z.object({
     secure_url: z.url(),
