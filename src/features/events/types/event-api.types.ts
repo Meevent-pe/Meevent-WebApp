@@ -14,6 +14,23 @@ export interface EventCreateRequestDto {
     longitude: number;
     salesOpenAt?: string;
     salesCloseAt?: string;
+    maxAttendees: number;
+}
+
+export interface EventUpdateRequestDto {
+    title?: string;
+    description?: string;
+    bannerUrl?: string;
+    startsAt?: string;
+    endsAt?: string;
+    timezone?: "America/Lima";
+    venueName?: string;
+    address?: string;
+    cityId?: number;
+    latitude?: number;
+    longitude?: number;
+    salesOpenAt?: string;
+    salesCloseAt?: string;
     maxAttendees?: number;
 }
 
