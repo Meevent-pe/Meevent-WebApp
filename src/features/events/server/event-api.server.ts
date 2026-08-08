@@ -31,8 +31,6 @@ export const eventApi = {
             sort: "startsAt,desc",
         });
         if (status) {
-            // El backend todavía no implementa este filtro, pero el contrato del
-            // frontend queda listo para activarse cuando acepte el query param.
             params.set("status", status);
         }
         const response = await backendRequest<unknown>(`/organizer/events?${params}`, {
