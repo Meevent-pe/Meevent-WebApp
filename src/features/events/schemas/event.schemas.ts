@@ -40,14 +40,6 @@ const eventFormObjectSchema = z.object({
     }),
     salesOpenAt: optionalDateTimeSchema,
     salesCloseAt: optionalDateTimeSchema,
-    maxAttendees: z.union([
-        z.literal(""),
-        z
-            .number()
-            .int("El aforo debe ser un número entero")
-            .min(1, "El aforo debe ser mayor a cero")
-            .max(1_000_000, "El aforo no puede superar 1 000 000"),
-    ]),
 });
 
 type EventFormShape = z.infer<typeof eventFormObjectSchema>;
@@ -89,14 +81,6 @@ function validateEventRelations(
     const hasSalesOpen = values.salesOpenAt !== "";
     const hasSalesClose = values.salesCloseAt !== "";
 
-    if (hasSalesOpen !== hasSalesClose) {
-        context.addIssue({
-            code: "custom",
-            path: [hasSalesOpen ? "salesCloseAt" : "salesOpenAt"],
-            message: "Completa ambas fechas del periodo de ventas",
-        });
-    }
-
     if (hasSalesOpen && hasSalesClose) {
         const salesOpenAt = parsePeruDateTime(values.salesOpenAt);
         const salesCloseAt = parsePeruDateTime(values.salesCloseAt);
@@ -128,28 +112,10 @@ function validateRequiredEventFields(values: EventFormShape, context: z.Refineme
         });
     }
 
-    if (values.maxAttendees === "") {
-        context.addIssue({
-            code: "custom",
-            path: ["maxAttendees"],
-            message: "Ingresa el aforo máximo del evento",
-        });
-    }
-}
-
-function validateRequiredCapacity(values: EventFormShape, context: z.RefinementCtx) {
-    if (values.maxAttendees === "") {
-        context.addIssue({
-            code: "custom",
-            path: ["maxAttendees"],
-            message: "Ingresa el aforo máximo del evento",
-        });
-    }
 }
 
 export const eventFormSchema = eventFormObjectSchema
-    .superRefine((values, context) => validateEventRelations(values, context, true))
-    .superRefine(validateRequiredCapacity);
+    .superRefine((values, context) => validateEventRelations(values, context, true));
 
 export const eventUpdateSchema = eventFormObjectSchema
     .superRefine((values, context) => validateEventRelations(values, context, false))

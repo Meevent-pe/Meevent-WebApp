@@ -36,7 +36,6 @@ function toEventFormValues(event: EventResponseDto): EventFormValues {
         locationConfirmed: hasCoordinates,
         salesOpenAt: event.salesOpenAt ? toPeruDateTimeInput(event.salesOpenAt) : "",
         salesCloseAt: event.salesCloseAt ? toPeruDateTimeInput(event.salesCloseAt) : "",
-        maxAttendees: event.maxAttendees ?? "",
     };
 }
 

@@ -17,7 +17,6 @@ export const eventResponseDtoSchema = z.object({
     longitude: z.number().nullable(),
     salesOpenAt: z.string().nullable(),
     salesCloseAt: z.string().nullable(),
-    maxAttendees: z.number().int().positive().nullable(),
 });
 
 export const eventPageDtoSchema = z

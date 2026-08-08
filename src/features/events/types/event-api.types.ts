@@ -14,7 +14,6 @@ export interface EventCreateRequestDto {
     longitude: number;
     salesOpenAt?: string;
     salesCloseAt?: string;
-    maxAttendees: number;
 }
 
 export interface EventUpdateRequestDto {
@@ -31,7 +30,6 @@ export interface EventUpdateRequestDto {
     longitude?: number;
     salesOpenAt?: string;
     salesCloseAt?: string;
-    maxAttendees?: number;
 }
 
 export interface EventResponseDto {
@@ -51,7 +49,6 @@ export interface EventResponseDto {
     longitude: number | null;
     salesOpenAt: string | null;
     salesCloseAt: string | null;
-    maxAttendees: number | null;
 }
 
 export interface EventPageDto {

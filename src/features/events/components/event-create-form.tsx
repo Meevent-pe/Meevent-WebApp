@@ -36,7 +36,6 @@ export function EventCreateForm() {
             ...DEFAULT_EVENT_LOCATION,
             salesOpenAt: "",
             salesCloseAt: "",
-            maxAttendees: "",
         },
     });
     const {

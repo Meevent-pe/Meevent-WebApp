@@ -9,14 +9,6 @@ function toPeruOffsetDateTime(value: string) {
     return `${value.length === 16 ? `${value}:00` : value}-05:00`;
 }
 
-function requireMaxAttendees(value: EventFormValues["maxAttendees"]) {
-    if (value === "") {
-        throw new Error("El aforo máximo es obligatorio.");
-    }
-
-    return value;
-}
-
 function normalizeCoordinate(value: number) {
     return Number(value.toFixed(7));
 }
@@ -44,7 +36,6 @@ export function toEventCreateRequestDto(values: EventFormValues): EventCreateReq
         longitude: normalizeCoordinate(values.longitude),
         ...(values.salesOpenAt ? { salesOpenAt: toPeruOffsetDateTime(values.salesOpenAt) } : {}),
         ...(values.salesCloseAt ? { salesCloseAt: toPeruOffsetDateTime(values.salesCloseAt) } : {}),
-        maxAttendees: requireMaxAttendees(values.maxAttendees),
     };
 }
 
@@ -59,7 +50,6 @@ export function toEventUpdateRequestDto(
     const address = values.address.trim();
     const latitude = normalizeCoordinate(values.latitude);
     const longitude = normalizeCoordinate(values.longitude);
-    const maxAttendees = requireMaxAttendees(values.maxAttendees);
 
     if (title !== current.title) payload.title = title;
     if (description !== current.description) payload.description = description;
@@ -82,7 +72,6 @@ export function toEventUpdateRequestDto(
     if (values.salesCloseAt && !representsSameInstant(values.salesCloseAt, current.salesCloseAt)) {
         payload.salesCloseAt = toPeruOffsetDateTime(values.salesCloseAt);
     }
-    if (maxAttendees !== current.maxAttendees) payload.maxAttendees = maxAttendees;
 
     return payload;
 }

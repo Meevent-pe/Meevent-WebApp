@@ -139,7 +139,7 @@ export function EventFormFields({
 
             <section className="space-y-5 rounded-xl border border-neutral-200 bg-white p-5 sm:p-6">
                 <div>
-                    <h2 className="font-semibold text-neutral-950">Fecha y capacidad</h2>
+                    <h2 className="font-semibold text-neutral-950">Fecha y ventas</h2>
                     <p className="mt-1 text-sm text-neutral-600">
                         Todas las horas se guardarán usando la zona horaria de Lima, Perú.
                     </p>
@@ -198,26 +198,6 @@ export function EventFormFields({
                             aria-invalid={!!errors.salesCloseAt}
                             disabled={disabled}
                             {...register("salesCloseAt")}
-                        />
-                    </FormField>
-                    <FormField
-                        id="maxAttendees"
-                        label="Aforo máximo"
-                        error={errors.maxAttendees?.message}
-                        hint="Este valor no se puede retirar una vez creado el evento."
-                    >
-                        <Input
-                            id="maxAttendees"
-                            type="number"
-                            inputMode="numeric"
-                            min={1}
-                            max={1_000_000}
-                            placeholder="Ej. 500"
-                            aria-invalid={!!errors.maxAttendees}
-                            disabled={disabled}
-                            {...register("maxAttendees", {
-                                setValueAs: (value) => (value === "" ? "" : Number(value)),
-                            })}
                         />
                     </FormField>
                 </div>

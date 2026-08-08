@@ -16,8 +16,6 @@ const API_TO_FORM_FIELD: Record<string, string> = {
     salesOpenAt: "salesOpenAt",
     sales_close_at: "salesCloseAt",
     salesCloseAt: "salesCloseAt",
-    max_attendees: "maxAttendees",
-    maxAttendees: "maxAttendees",
 };
 
 export function mapEventError(error: unknown, fallbackMessage: string): ActionResult {
