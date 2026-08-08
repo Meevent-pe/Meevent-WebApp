@@ -1,4 +1,4 @@
-import { CalendarDays, MapPin, Plus, Settings, UsersRound } from "lucide-react";
+import { CalendarDays, MapPin, Plus, Settings } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -196,12 +196,6 @@ export default async function OrganizerEventsPage({ searchParams }: OrganizerEve
                                                     "Sin ubicación"}
                                             </span>
                                         </p>
-                                        {event.maxAttendees ? (
-                                            <p className="flex items-center gap-2">
-                                                <UsersRound className="size-4" aria-hidden="true" />
-                                                Aforo: {event.maxAttendees.toLocaleString("es-PE")}
-                                            </p>
-                                        ) : null}
                                     </div>
                                     <Link
                                         href={`/organizer/events/${event.id}`}

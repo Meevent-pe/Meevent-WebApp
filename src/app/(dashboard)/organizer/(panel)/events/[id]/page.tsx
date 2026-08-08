@@ -1,4 +1,4 @@
-import { ArrowLeft, CalendarDays, MapPin, UsersRound } from "lucide-react";
+import { ArrowLeft, CalendarDays, MapPin } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -66,13 +66,6 @@ function EventReadOnlySummary({ event }: { event: EventResponseDto }) {
                         <dd className="mt-1 flex gap-2 text-neutral-600">
                             <MapPin className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
                             {event.venueName ?? event.address ?? "Sin ubicación"}
-                        </dd>
-                    </div>
-                    <div>
-                        <dt className="font-medium text-neutral-950">Aforo</dt>
-                        <dd className="mt-1 flex gap-2 text-neutral-600">
-                            <UsersRound className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-                            {event.maxAttendees?.toLocaleString("es-PE") ?? "No definido"}
                         </dd>
                     </div>
                     <div>
