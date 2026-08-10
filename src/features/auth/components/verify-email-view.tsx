@@ -10,7 +10,7 @@ import { Button } from "@/shared/components/ui/button";
 
 type VerificationState =
     | { status: "loading" }
-    | { status: "success"; message: string }
+    | { status: "success"; message: string; redirectTo?: string }
     | { status: "error"; message: string };
 
 interface VerifyEmailViewProps {
@@ -40,7 +40,11 @@ export function VerifyEmailView({ token }: VerifyEmailViewProps) {
                 window.history.replaceState({}, "", "/verify-email");
                 setState(
                     result.success
-                        ? { status: "success", message: result.message }
+                        ? {
+                              status: "success",
+                              message: result.message,
+                              redirectTo: result.redirectTo,
+                          }
                         : { status: "error", message: result.message }
                 );
             })
@@ -82,7 +86,11 @@ export function VerifyEmailView({ token }: VerifyEmailViewProps) {
             <p className="text-sm leading-6 text-neutral-600">
                 Tu sesión se inició automáticamente. Ya puedes continuar en Meevent.
             </p>
-            <Button type="button" onClick={() => window.location.assign("/")} className="w-full">
+            <Button
+                type="button"
+                onClick={() => window.location.assign(state.redirectTo ?? "/")}
+                className="w-full"
+            >
                 Continuar
             </Button>
         </div>

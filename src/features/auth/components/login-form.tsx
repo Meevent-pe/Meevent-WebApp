@@ -22,7 +22,7 @@ interface LoginFormProps {
     redirectTo?: string;
 }
 
-export function LoginForm({ initialMessage, redirectTo = "/" }: LoginFormProps) {
+export function LoginForm({ initialMessage, redirectTo }: LoginFormProps) {
     const router = useRouter();
     const [result, setResult] = useState<ActionResult | null>(
         initialMessage ? { success: true, message: initialMessage } : null
@@ -50,7 +50,7 @@ export function LoginForm({ initialMessage, redirectTo = "/" }: LoginFormProps) 
             return;
         }
 
-        router.replace(redirectTo);
+        router.replace(redirectTo ?? actionResult.redirectTo ?? "/");
         router.refresh();
     });
 

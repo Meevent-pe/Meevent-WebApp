@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { SESSION_COOKIE_NAME } from "@/features/auth/constants/auth-cookies";
+import { getAuthenticatedHome } from "@/features/auth/lib/auth-navigation";
 import {
     isSessionExpired,
     readSessionClaims,
@@ -9,6 +10,7 @@ import {
 
 const GUEST_ROUTES = new Set(["/login", "/register", "/forgot-password"]);
 const ORGANIZER_ONBOARDING_ROUTE = "/organizer/onboarding";
+const ORGANIZER_DASHBOARD_ROUTE = "/organizer/dashboard";
 
 function readSession(request: NextRequest): SessionClaims | null {
     const accessToken = request.cookies.get(SESSION_COOKIE_NAME)?.value;
@@ -42,7 +44,7 @@ export function proxy(request: NextRequest) {
 
     if (GUEST_ROUTES.has(pathname)) {
         const response = session
-            ? NextResponse.redirect(new URL("/", request.url))
+            ? NextResponse.redirect(new URL(getAuthenticatedHome(session.role), request.url))
             : NextResponse.next();
 
         return clearInvalidSession(response, request, session);
@@ -57,6 +59,23 @@ export function proxy(request: NextRequest) {
         }
 
         if (session.role !== "ATTENDEE") {
+            return NextResponse.redirect(new URL(getAuthenticatedHome(session.role), request.url));
+        }
+    }
+
+    if (pathname.startsWith("/organizer/") && pathname !== ORGANIZER_ONBOARDING_ROUTE) {
+        if (!session) {
+            const loginUrl = new URL("/login", request.url);
+            loginUrl.searchParams.set("next", ORGANIZER_DASHBOARD_ROUTE);
+
+            return clearInvalidSession(NextResponse.redirect(loginUrl), request, session);
+        }
+
+        if (session.role === "ATTENDEE") {
+            return NextResponse.redirect(new URL(ORGANIZER_ONBOARDING_ROUTE, request.url));
+        }
+
+        if (session.role !== "ORGANIZER") {
             return NextResponse.redirect(new URL("/", request.url));
         }
     }
@@ -65,5 +84,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/login", "/register", "/forgot-password", "/organizer/onboarding"],
+    matcher: ["/login", "/register", "/forgot-password", "/organizer/:path*"],
 };

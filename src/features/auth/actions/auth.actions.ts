@@ -18,6 +18,7 @@ import {
 import { mapAuthError } from "@/features/auth/mappers/auth-error.mapper";
 import { authApi } from "@/features/auth/server/auth-api.server";
 import { createSession, deleteSession } from "@/features/auth/server/session.server";
+import { getAuthenticatedHome } from "@/features/auth/lib/auth-navigation";
 import { mapZodValidationError } from "@/shared/lib/map-zod-validation-error";
 import type { ActionResult } from "@/shared/types/action-result.types";
 
@@ -29,9 +30,13 @@ export async function loginAction(input: unknown): Promise<ActionResult> {
 
     try {
         const response = await authApi.login(toLoginRequestDto(parsed.data));
-        await createSession(response.accessToken);
+        const session = await createSession(response.accessToken);
 
-        return { success: true, message: "Sesión iniciada correctamente." };
+        return {
+            success: true,
+            message: "Sesión iniciada correctamente.",
+            redirectTo: getAuthenticatedHome(session.role),
+        };
     } catch (error) {
         return mapAuthError(error, "No se pudo iniciar sesión.");
     }
@@ -59,8 +64,12 @@ export async function verifyEmailAction(input: unknown): Promise<ActionResult> {
 
     try {
         const response = await authApi.verifyEmail(parsed.data.token);
-        await createSession(response.accessToken);
-        return { success: true, message: "Tu correo fue verificado correctamente." };
+        const session = await createSession(response.accessToken);
+        return {
+            success: true,
+            message: "Tu correo fue verificado correctamente.",
+            redirectTo: getAuthenticatedHome(session.role),
+        };
     } catch (error) {
         return mapAuthError(error, "No se pudo verificar el correo.");
     }
@@ -102,8 +111,12 @@ export async function googleLoginAction(input: unknown): Promise<ActionResult> {
 
     try {
         const response = await authApi.googleLogin(toGoogleLoginRequestDto(parsed.data));
-        await createSession(response.accessToken);
-        return { success: true, message: "Sesión iniciada con Google." };
+        const session = await createSession(response.accessToken);
+        return {
+            success: true,
+            message: "Sesión iniciada con Google.",
+            redirectTo: getAuthenticatedHome(session.role),
+        };
     } catch (error) {
         return mapAuthError(error, "No se pudo iniciar sesión con Google.");
     }
